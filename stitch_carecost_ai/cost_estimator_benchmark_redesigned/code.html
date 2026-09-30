@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="mobile_tab" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-primary": "#ffffff",
+            "on-secondary-container": "#006f66",
+            "surface-dim": "#c7dcf4",
+            "on-tertiary-fixed-variant": "#005236",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-surface-variant": "#3f4850",
+            "surface-container": "#e3efff",
+            "primary-fixed": "#cce5ff",
+            "primary": "#006194",
+            "on-tertiary-container": "#f5fff6",
+            "surface-container-lowest": "#ffffff",
+            "outline-variant": "#bfc7d2",
+            "on-primary-container": "#fdfcff",
+            "inverse-surface": "#1d3245",
+            "on-primary-fixed-variant": "#004b73",
+            "surface-tint": "#006398",
+            "on-primary-fixed": "#001d31",
+            "inverse-on-surface": "#e8f2ff",
+            "on-secondary-fixed": "#00201d",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed": "#002113",
+            "surface-variant": "#cfe5fd",
+            "surface-container-highest": "#cfe5fd",
+            "secondary-fixed": "#89f5e7",
+            "surface-bright": "#f7f9ff",
+            "tertiary": "#006947",
+            "on-secondary-fixed-variant": "#005049",
+            "secondary-fixed-dim": "#6bd8cb",
+            "secondary-container": "#86f2e4",
+            "primary-container": "#007bb9",
+            "inverse-primary": "#93ccff",
+            "on-error-container": "#93000a",
+            "on-surface": "#061d2f",
+            "tertiary-container": "#00855b",
+            "surface-container-high": "#d8eaff",
+            "on-background": "#061d2f",
+            "primary-fixed-dim": "#93ccff",
+            "surface": "#f7f9ff",
+            "tertiary-fixed": "#6ffbbe",
+            "outline": "#707881",
+            "on-error": "#ffffff",
+            "surface-container-low": "#edf4ff",
+            "background": "#f7f9ff",
+            "secondary": "#006a61",
+            "on-tertiary": "#ffffff"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "margin": "1rem",
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "margin-tablet": "2rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.25rem",
+            "space-sm": "0.5rem",
+            "margin-desktop": "3rem",
+            "space-lg": "1.5rem",
+            "gutter-tablet": "1.5rem",
+            "gutter-desktop": "2rem"
+          },
+          fontFamily: {
+            "label-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "caption": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "display-currency": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "display-currency-mobile": ["Plus Jakarta Sans"],
+            "body-lg-medium": ["Inter"],
+            "body-md-medium": ["Inter"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"],
+            "body-lg": ["Inter"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f9ff;
+        color: #061d2f;
+      }
+      body {
+        overscroll-behavior-y: none;
+        -webkit-tap-highlight-color: transparent;
+        min-height: max(884px, 100dvh);
+      }
+      .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .pt-safe {
+        padding-top: env(safe-area-inset-top, 0px);
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    .min-touch {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Persistent Header with Safe Top & Accessibility Affordances -->
+<header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl border-b border-surface-container-high/60 shadow-[0_1px_8px_rgba(0,0,0,0.03)]">
+<div class="h-16 px-space-md flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-on-primary shrink-0 shadow-sm shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">health_and_safety</span>
+</div>
+<div class="flex flex-col truncate">
+<span class="font-headline-sm text-[17px] font-bold text-on-surface tracking-tight leading-none truncate">CareCost AI</span>
+<span class="font-caption text-caption text-on-surface-variant font-medium mt-1 truncate">Fair Health Tariffs India</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 shrink-0">
+<button aria-label="Emergency SOS 108" class="min-touch h-10 px-2.5 rounded-full bg-error-container text-on-error-container flex items-center justify-center gap-1 hover:bg-error/20 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-error text-[18px]">e911_emergency</span>
+<span class="font-label-sm text-[12px] font-bold text-error">108</span>
+</button>
+<button aria-label="Language Selector" class="min-touch h-10 px-2.5 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center gap-1 hover:bg-surface-variant transition-colors">
+<span class="font-label-sm text-label-sm font-semibold text-primary">EN</span>
+<span class="font-caption text-caption text-outline">|</span>
+<span class="font-caption text-caption text-on-surface-variant">తె|हि</span>
+</button>
+<button aria-label="Profile and settings" class="min-touch w-10 h-10 rounded-full bg-surface-container-high hover:bg-surface-variant flex items-center justify-center text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">person</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Container with Safe Top/Bottom Spacing -->
+<main class="flex flex-col relative w-full pt-16 pb-36 bg-surface min-h-screen">
+<div class="flex flex-col w-full px-space-md py- space-sm gap-4">
+<!-- Screen Narrative & System Status Provenance (Heuristic 1: Visibility of System Status) -->
+<div class="flex flex-col gap-1.5 mt-2">
+<div class="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-full bg-surface-container-high border border-outline-variant/40 text-primary">
+<span class="material-symbols-outlined text-[15px]">auto_awesome</span>
+<span class="font-caption text-caption uppercase tracking-wider font-bold">Smart Benchmark v2.4</span>
+</div>
+<h1 class="font-headline-lg-mobile text-[24px] font-bold text-on-surface tracking-tight leading-tight">Healthcare Cost Estimator</h1>
+<!-- Trust Provenance Strip -->
+<div class="flex items-center gap-1.5 text-on-surface-variant font-caption text-[11.5px] bg-surface-container-low px-2.5 py-1.5 rounded-lg border border-surface-container mt-0.5">
+<span class="material-symbols-outlined text-primary text-[15px] shrink-0">verified</span>
+<span class="leading-tight">Based on <strong>1,248 recent verified hospital tariffs</strong> · Updated Sep 2026</span>
+</div>
+</div>
+<!-- STREAMLINED PROGRESSIVE 3-STEP DECISION FLOW -->
+<section aria-label="Estimator Input Configuration" class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-outline-variant/30 flex flex-col gap-3.5">
+<!-- Step 1: Procedure Search & Active Selection Badge -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[12px] font-bold uppercase tracking-wide text-primary flex items-center gap-1">
+<span class="w-4 h-4 rounded-full bg-primary text-on-primary inline-flex items-center justify-center text-[10px] font-bold">1</span>
+              What do you need?
+            </span>
+<span class="font-caption text-[11px] text-on-surface-variant">Step 1 of 3</span>
+</div>
+<!-- Quick Active Selected Procedure Pill with 44px Voice Affordance & Edit -->
+<div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high flex items-center justify-between gap-2">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">medical_information</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-[13px] font-semibold text-on-surface truncate">Cataract Surgery</span>
+<span class="font-caption text-[11px] text-on-surface-variant truncate">Phacoemulsification + Foldable IOL</span>
+</div>
+</div>
+<div class="flex items-center gap-1 shrink-0">
+<!-- Voice Search Button (WCAG 44x44px target) -->
+<button aria-label="Search by voice in Hindi, Telugu, or English" class="min-touch w-11 h-11 rounded-lg bg-surface-container hover:bg-surface-variant flex items-center justify-center text-primary active:scale-95 transition-transform" onclick="alert('Listening... Speak surgical procedure name or symptoms.')" type="button">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+<!-- Change Procedure Button -->
+<button aria-label="Change procedure selection" class="min-touch h-11 px-2.5 rounded-lg bg-surface-container-high hover:bg-surface-variant text-primary font-label-sm text-[12px] font-bold flex items-center justify-center active:scale-95 transition-transform" onclick="promptProcedureChange()" type="button">
+                Change
+              </button>
+</div>
+</div>
+</div>
+<div class="h-px w-full bg-surface-container-high"></div>
+<!-- Step 2: Location Selector with 44px Change Affordance -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[12px] font-bold uppercase tracking-wide text-primary flex items-center gap-1">
+<span class="w-4 h-4 rounded-full bg-primary text-on-primary inline-flex items-center justify-center text-[10px] font-bold">2</span>
+              Where?
+            </span>
+<span class="font-caption text-[11px] text-tertiary font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">my_location</span> GPS Detected
+            </span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high flex items-center justify-between gap-2">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-[13px] font-semibold text-on-surface truncate" id="location-text">Hyderabad, Telangana</span>
+<span class="font-caption text-[11px] text-on-surface-variant truncate">Banjara Hills / Secunderabad · Within 10 km</span>
+</div>
+</div>
+<!-- Change Location Button (44px touch) -->
+<button aria-label="Change location radius or city" class="min-touch h-11 px-3 rounded-lg bg-surface-container-high hover:bg-surface-variant text-primary font-label-sm text-[12px] font-bold flex items-center justify-center active:scale-95 transition-transform shrink-0" onclick="changeLocation()" type="button">
+              Change
+            </button>
+</div>
+</div>
+<div class="h-px w-full bg-surface-container-high"></div>
+<!-- Step 3: Explicit User Priority Selector -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<label class="font-label-sm text-[12px] font-bold uppercase tracking-wide text-primary flex items-center gap-1">
+<span class="w-4 h-4 rounded-full bg-primary text-on-primary inline-flex items-center justify-center text-[10px] font-bold">3</span>
+              What matters most to you?
+            </label>
+<span class="font-caption text-[11px] text-on-surface-variant font-medium">Select priority</span>
+</div>
+<div aria-label="User healthcare optimization priority" class="grid grid-cols-2 gap-2" id="priority-selector" role="radiogroup">
+<!-- Option A: Lowest Out-of-Pocket (Default Selected) -->
+<button aria-checked="true" class="priority-btn min-touch p-2.5 rounded-lg border-2 border-primary bg-primary-fixed/25 text-left flex flex-col justify-between transition-all" data-priority="oop" onclick="selectPriority(this, 'oop')" role="radio" type="button">
+<div class="flex items-center justify-between w-full">
+<span class="material-symbols-outlined text-primary text-[18px]">savings</span>
+<span class="priority-indicator material-symbols-outlined text-primary text-[18px]">check_circle</span>
+</div>
+<div class="mt-1">
+<div class="font-label-sm text-[12px] font-bold text-on-surface leading-tight">Lowest Out-of-Pocket</div>
+<div class="font-caption text-[10px] text-on-surface-variant leading-none mt-0.5">Maximize scheme &amp; TPA</div>
+</div>
+</button>
+<!-- Option B: Closest Facility -->
+<button aria-checked="false" class="priority-btn min-touch p-2.5 rounded-lg border border-outline-variant/50 bg-surface-container-low text-left flex flex-col justify-between hover:bg-surface-container transition-all" data-priority="distance" onclick="selectPriority(this, 'distance')" role="radio" type="button">
+<div class="flex items-center justify-between w-full">
+<span class="material-symbols-outlined text-outline text-[18px]">near_me</span>
+<span class="priority-indicator material-symbols-outlined text-outline text-[18px]">radio_button_unchecked</span>
+</div>
+<div class="mt-1">
+<div class="font-label-sm text-[12px] font-semibold text-on-surface leading-tight">Closest Facility</div>
+<div class="font-caption text-[10px] text-on-surface-variant leading-none mt-0.5">&lt; 5 km travel distance</div>
+</div>
+</button>
+<!-- Option C: Lowest Treatment Cost -->
+<button aria-checked="false" class="priority-btn min-touch p-2.5 rounded-lg border border-outline-variant/50 bg-surface-container-low text-left flex flex-col justify-between hover:bg-surface-container transition-all" data-priority="cost" onclick="selectPriority(this, 'cost')" role="radio" type="button">
+<div class="flex items-center justify-between w-full">
+<span class="material-symbols-outlined text-outline text-[18px]">price_check</span>
+<span class="priority-indicator material-symbols-outlined text-outline text-[18px]">radio_button_unchecked</span>
+</div>
+<div class="mt-1">
+<div class="font-label-sm text-[12px] font-semibold text-on-surface leading-tight">Lowest Bill Rate</div>
+<div class="font-caption text-[10px] text-on-surface-variant leading-none mt-0.5">Trust &amp; standard wards</div>
+</div>
+</button>
+<!-- Option D: Max Insurance Network -->
+<button aria-checked="false" class="priority-btn min-touch p-2.5 rounded-lg border border-outline-variant/50 bg-surface-container-low text-left flex flex-col justify-between hover:bg-surface-container transition-all" data-priority="insurance" onclick="selectPriority(this, 'insurance')" role="radio" type="button">
+<div class="flex items-center justify-between w-full">
+<span class="material-symbols-outlined text-outline text-[18px]">verified_user</span>
+<span class="priority-indicator material-symbols-outlined text-outline text-[18px]">radio_button_unchecked</span>
+</div>
+<div class="mt-1">
+<div class="font-label-sm text-[12px] font-semibold text-on-surface leading-tight">Max Cashless Tie-up</div>
+<div class="font-caption text-[10px] text-on-surface-variant leading-none mt-0.5">GIPSA &amp; PMJAY desk</div>
+</div>
+</button>
+</div>
+</div>
+<!-- Privacy Assurance Tag (Visible Trust & Ethical Safety) -->
+<div class="flex items-center gap-1.5 pt-1 text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-outline">lock</span>
+<span><strong>Privacy assurance:</strong> Used only to calculate estimated benchmarks. Never shared without consent.</span>
+</div>
+</section>
+<!-- REFINED INFORMATION HIERARCHY: HERO RESULT CARD -->
+<section aria-labelledby="benchmark-summary-heading" class="bg-surface-container-lowest rounded-xl p-4 shadow-md border border-primary/20 flex flex-col gap-3.5 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="font-caption text-[11px] uppercase tracking-wider font-bold text-primary flex items-center gap-1" id="benchmark-summary-heading">
+<span class="material-symbols-outlined text-[15px]">insights</span> Live Pricing Benchmark
+          </span>
+<!-- Confidence Level Contextual Help Affordance -->
+<button aria-label="What does confidence level mean?" class="min-touch h-8 px-2 rounded-full bg-tertiary-container/15 text-tertiary hover:bg-tertiary-container/25 flex items-center gap-1 text-[11px] font-semibold transition-colors" onclick="showHelpModal('Confidence Score', 'High confidence (96%) signifies calculation from 1,248 recent verified claims within Hyderabad during the last 6 months.')" type="button">
+<span class="material-symbols-outlined text-[13px]">verified</span> High Confidence
+            <span class="material-symbols-outlined text-[14px]">help</span>
+</button>
+</div>
+<!-- Primary Metric 1: Estimated Total Treatment Cost -->
+<div class="flex flex-col gap-0.5 bg-surface-container-low p-3 rounded-xl border border-surface-container">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[13px] font-bold text-on-surface flex items-center gap-1">
+              Estimated Treatment Cost
+              <button aria-label="What is Estimated Treatment Cost?" class="text-on-surface-variant hover:text-primary inline-flex items-center" onclick="showHelpModal('Estimated Treatment Cost', 'The complete pre-discharge hospital bill including operating room, standard consumable pack, ophthalmic surgeon fee, and routine eye drops.')" type="button">
+<span class="material-symbols-outlined text-[16px]">info</span>
+</button>
+</span>
+<span class="font-caption text-[11px] text-outline font-medium">Billed range</span>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-currency-mobile text-[28px] font-extrabold text-on-surface tracking-tight" id="treatment-cost-range">₹25,000 – ₹42,000</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium">
+            Typical benchmark: <strong class="text-primary font-bold">₹32,500</strong> for standard daycare phacoemulsification
+          </div>
+</div>
+<!-- Primary Metric 2: Estimated Out-of-Pocket Cost (Hero Focus) -->
+<div class="flex flex-col gap-1.5 bg-primary-fixed/20 p-3.5 rounded-xl border-2 border-primary/30">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-[13px] font-bold text-primary flex items-center gap-1">
+                Estimated Out-of-Pocket Cost
+                <button aria-label="What is Out-of-Pocket Cost?" class="text-primary hover:text-on-primary-fixed-variant inline-flex items-center" onclick="showHelpModal('Estimated Out-of-Pocket Cost', 'The net direct cash you are expected to settle yourself after state welfare schemes (Aarogyasri / PMJAY) or standard mediclaim deductibles.')" type="button">
+<span class="material-symbols-outlined text-[16px]">info</span>
+</button>
+</span>
+<span class="font-caption text-[11px] text-on-surface-variant leading-none mt-0.5">The amount you may have to pay yourself</span>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-[11px] font-bold">
+<span class="material-symbols-outlined text-[13px]">check</span> Matched
+            </span>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-currency text-[32px] font-extrabold text-on-surface tracking-tight" id="oop-cost-display">₹8,000 – ₹14,000*</span>
+</div>
+<!-- Non-color dependent multi-coded badge -->
+<div class="flex items-start gap-1.5 p-2 rounded-lg bg-surface-container-lowest border border-tertiary-fixed-dim/40 text-on-surface text-[11.5px] leading-tight mt-1">
+<span class="text-tertiary font-bold text-[14px] shrink-0">🟢</span>
+<div>
+<span class="font-semibold text-tertiary">Lower Out-of-Pocket:</span> ~₹22,100 potential coverage identified via <strong>Ayushman Bharat / State Aarogyasri</strong> code OPHT-04-12.
+            </div>
+</div>
+</div>
+<!-- Mandatory Prominent Disclaimer (Heuristic: Error Prevention & Accuracy) -->
+<p class="font-caption text-[11px] text-outline italic leading-tight">
+          *Disclaimer: AI estimate — actual hospital charges and out-of-pocket bills may vary based on clinical factors, lens type, and hospital room category.
+        </p>
+</section>
+<!-- PROGRESSIVE DISCLOSURE: COLLAPSIBLE ACCORDIONS -->
+<section aria-label="Detailed breakdowns and methodology" class="flex flex-col gap-2.5">
+<!-- Accordion 1: Why can the cost vary? -->
+<div class="rounded-xl bg-surface-container-lowest border border-outline-variant/30 overflow-hidden shadow-sm">
+<button aria-controls="section-why-vary" aria-expanded="false" class="w-full min-touch p-3.5 flex items-center justify-between text-left hover:bg-surface-container-low transition-colors" onclick="toggleDisclosure('section-why-vary', 'icon-why-vary')" type="button">
+<span class="font-label-md text-[13.5px] text-on-surface font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[19px]">tune</span>
+              Why can the cost vary?
+            </span>
+<span class="material-symbols-outlined text-outline text-[22px] transition-transform duration-200" id="icon-why-vary">expand_more</span>
+</button>
+<div class="px-3.5 pb-3.5 flex-col gap-2.5 text-on-surface-variant hidden border-t border-surface-container" id="section-why-vary">
+<!-- Factor 1 -->
+<div class="flex items-start gap-2.5 pt-2.5">
+<div class="w-6 h-6 rounded-full bg-surface-container-high text-primary flex items-center justify-center shrink-0 text-[12px] font-bold">1</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[12.5px] font-bold text-on-surface">Hospital Tier &amp; Bed Accreditation</span>
+<span class="font-caption text-[11.5px] leading-snug">Charitable trusts and secondary teaching hospitals charge between ₹12,000 – ₹18,000, while JCI/NABH super-specialty corporate centers range ₹35,000 – ₹55,000.</span>
+</div>
+</div>
+<!-- Factor 2 -->
+<div class="flex items-start gap-2.5">
+<div class="w-6 h-6 rounded-full bg-surface-container-high text-primary flex items-center justify-center shrink-0 text-[12px] font-bold">2</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[12.5px] font-bold text-on-surface">Intraocular Lens (IOL) Grade</span>
+<span class="font-caption text-[11.5px] leading-snug">Indian hydrophilic monofocal lenses are fully covered by standard state schemes. Premium imported hydrophobic, Toric, or Trifocal EDOF lenses add ₹15,000 – ₹38,000 copay.</span>
+</div>
+</div>
+<!-- Factor 3 -->
+<div class="flex items-start gap-2.5">
+<div class="w-6 h-6 rounded-full bg-surface-container-high text-primary flex items-center justify-center shrink-0 text-[12px] font-bold">3</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[12.5px] font-bold text-on-surface">Daycare vs. Inpatient Admission</span>
+<span class="font-caption text-[11.5px] leading-snug">High-volume 2-hour daycare procedures incur minimal room surcharges compared to overnight general or private ward stays.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Accordion 2: How was this estimate calculated? -->
+<div class="rounded-xl bg-surface-container-lowest border border-outline-variant/30 overflow-hidden shadow-sm">
+<button aria-controls="section-how-calc" aria-expanded="false" class="w-full min-touch p-3.5 flex items-center justify-between text-left hover:bg-surface-container-low transition-colors" onclick="toggleDisclosure('section-how-calc', 'icon-how-calc')" type="button">
+<span class="font-label-md text-[13.5px] text-on-surface font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[19px]">account_tree</span>
+              How was this estimate calculated &amp; coverage factors
+            </span>
+<span class="material-symbols-outlined text-outline text-[22px] transition-transform duration-200" id="icon-how-calc">expand_more</span>
+</button>
+<div class="px-3.5 pb-3.5 flex-col gap-2.5 text-on-surface-variant hidden border-t border-surface-container" id="section-how-calc">
+<div class="p-2.5 rounded-lg bg-surface-container-low flex flex-col gap-1.5 mt-2">
+<span class="font-label-sm text-[12px] font-bold text-on-surface">Government &amp; Regulatory Benchmark Datasets</span>
+<ul class="font-caption text-[11.5px] list-disc list-inside space-y-1 text-on-surface-variant leading-relaxed">
+<li><strong>CGHS (Central Govt Health Scheme):</strong> Telangana state gazette tariffs for phacoemulsification package (Code 453).</li>
+<li><strong>ROHINI Registry &amp; GIPSA:</strong> Preferred Provider Network (PPN) negotiated cashless rate bands.</li>
+<li><strong>PMJAY / Aarogyasri Trust:</strong> Standard empanelled pre-authorized surgical schedules.</li>
+</ul>
+</div>
+<div class="flex items-center gap-2 text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[16px]">security</span>
+<span>Updated bi-weekly via automated tariff intelligence crawlers and audited billing receipts.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Secondary Action Row (Save / Share) -->
+<div class="grid grid-cols-2 gap-2 mt-1">
+<button aria-label="Save this cost estimate to bookmarks" class="min-touch h-11 px-3 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12.5px] font-semibold flex items-center justify-center gap-1.5 active:scale-98 transition-all" onclick="saveEstimate()" type="button">
+<span class="material-symbols-outlined text-[17px] text-primary">bookmark_add</span>
+          Save Estimate
+        </button>
+<button aria-label="Share benchmark summary via WhatsApp or PDF" class="min-touch h-11 px-3 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12.5px] font-semibold flex items-center justify-center gap-1.5 active:scale-98 transition-all" onclick="shareSummary()" type="button">
+<span class="material-symbols-outlined text-[17px] text-primary">share</span>
+          Share Summary
+        </button>
+</div>
+</div>
+</main>
+<!-- HIGH-CONTRAST PINNED BOTTOM CTA (Fitts' Law & WCAG Touch Standards) -->
+<div class="fixed bottom-16 left-0 right-0 z-40 bg-surface/95 backdrop-blur-xl px-space-md py-2.5 border-t border-surface-container-high shadow-lg">
+<div class="max-w-md mx-auto flex flex-col gap-1">
+<button aria-label="Compare care options and hospital facilities" class="min-touch w-full h-12 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-[15px] font-bold flex items-center justify-center gap-2 active:scale-[0.99] shadow-md shadow-primary/25 transition-all" onclick="navigateToFacilityComparison()" type="button">
+<span>Compare Care Options &amp; Facilities</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Persistent Standard Bottom Navigation -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/98 backdrop-blur-xl border-t border-surface-container-high shadow-[0_-2px_12px_rgba(0,0,0,0.05)]" data-active-classes="text-primary font-body-md-medium">
+<div class="h-16 px-space-xs grid grid-cols-5 items-center justify-items-center">
+<a class="flex flex-col items-center justify-center w-full h-12 min-touch text-on-surface-variant hover:text-primary transition-colors gap-0.5" data-path="home" href="#">
+<span class="material-symbols-outlined text-[22px]">grid_view</span>
+<span class="font-caption text-[10.5px] tracking-tight">Home</span>
+</a>
+<a aria-current="page" class="flex flex-col items-center justify-center w-full h-12 min-touch transition-colors gap-0.5 text-primary font-bold" data-path="cost-estimator" href="#">
+<span class="material-symbols-outlined text-[22px] font-bold">calculate</span>
+<span class="font-caption text-[10.5px] tracking-tight">Estimator</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-12 min-touch text-on-surface-variant hover:text-primary transition-colors gap-0.5" data-path="find-care" href="#">
+<span class="material-symbols-outlined text-[22px]">local_hospital</span>
+<span class="font-caption text-[10.5px] tracking-tight">Find Care</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-12 min-touch text-on-surface-variant hover:text-primary transition-colors gap-0.5" data-path="schemes-and-oop" href="#">
+<span class="material-symbols-outlined text-[22px]">health_and_safety</span>
+<span class="font-caption text-[10.5px] tracking-tight">Schemes</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-12 min-touch text-on-surface-variant hover:text-primary transition-colors gap-0.5" data-path="saved-and-family" href="#">
+<span class="material-symbols-outlined text-[22px]">bookmarks</span>
+<span class="font-caption text-[10.5px] tracking-tight">Saved</span>
+</a>
+</div>
+</nav>
+<!-- Interactive Logic & Progressive Disclosure Handlers -->
+<script>
+    function selectPriority(button, type) {
+      const container = document.getElementById('priority-selector');
+      const allBtns = container.querySelectorAll('.priority-btn');
+      
+      allBtns.forEach(btn => {
+        btn.setAttribute('aria-checked', 'false');
+        btn.className = 'priority-btn min-touch p-2.5 rounded-lg border border-outline-variant/50 bg-surface-container-low text-left flex flex-col justify-between hover:bg-surface-container transition-all';
+        const icon = btn.querySelector('.priority-indicator');
+        if (icon) {
+          icon.textContent = 'radio_button_unchecked';
+          icon.className = 'priority-indicator material-symbols-outlined text-outline text-[18px]';
+        }
+      });
+
+      button.setAttribute('aria-checked', 'true');
+      button.className = 'priority-btn min-touch p-2.5 rounded-lg border-2 border-primary bg-primary-fixed/25 text-left flex flex-col justify-between transition-all';
+      const activeIcon = button.querySelector('.priority-indicator');
+      if (activeIcon) {
+        activeIcon.textContent = 'check_circle';
+        activeIcon.className = 'priority-indicator material-symbols-outlined text-primary text-[18px]';
+      }
+
+      // Dynamically simulate prioritized benchmarking
+      const oopDisplay = document.getElementById('oop-cost-display');
+      const treatmentCost = document.getElementById('treatment-cost-range');
+      
+      if (type === 'oop') {
+        oopDisplay.textContent = '₹8,000 – ₹14,000*';
+        treatmentCost.textContent = '₹25,000 – ₹42,000';
+      } else if (type === 'distance') {
+        oopDisplay.textContent = '₹11,500 – ₹16,200*';
+        treatmentCost.textContent = '₹28,000 – ₹38,000';
+      } else if (type === 'cost') {
+        oopDisplay.textContent = '₹5,000 – ₹9,500*';
+        treatmentCost.textContent = '₹16,000 – ₹24,000';
+      } else if (type === 'insurance') {
+        oopDisplay.textContent = '₹3,500 – ₹7,000*';
+        treatmentCost.textContent = '₹32,000 – ₹48,000';
+      }
+    }
+
+    function toggleDisclosure(contentId, iconId) {
+      const content = document.getElementById(contentId);
+      const icon = document.getElementById(iconId);
+      const isHidden = content.classList.contains('hidden');
+
+      if (isHidden) {
+        content.classList.remove('hidden');
+        content.classList.add('flex');
+        icon.style.transform = 'rotate(180deg)';
+        icon.closest('button').setAttribute('aria-expanded', 'true');
+      } else {
+        content.classList.add('hidden');
+        content.classList.remove('flex');
+        icon.style.transform = 'rotate(0deg)';
+        icon.closest('button').setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    function promptProcedureChange() {
+      const newProc = prompt("Enter medical treatment, procedure, or surgery:", "Cataract Surgery (Phaco + Monofocal IOL)");
+      if (newProc) {
+        alert("Updating real-time benchmark models for: " + newProc);
+      }
+    }
+
+    function changeLocation() {
+      const newLoc = prompt("Enter city or PIN code in India:", "Hyderabad (Banjara Hills / Secunderabad)");
+      if (newLoc) {
+        document.getElementById('location-text').textContent = newLoc;
+      }
+    }
+
+    function showHelpModal(title, message) {
+      alert(title + "\n\n" + message);
+    }
+
+    function saveEstimate() {
+      alert("Estimate saved to your 'Saved & Family' portal. You can review and print this anytime.");
+    }
+
+    function shareSummary() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'CareCost AI Benchmark',
+          text: 'Estimated Cataract Surgery benchmark for Hyderabad: ₹25,000 – ₹42,000 (Out-of-pocket: ₹8,000 – ₹14,000)',
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        alert("Summary copied to clipboard: Cataract Surgery (Hyderabad) Benchmark: ₹25,000 - ₹42,000. Out-of-pocket estimate: ₹8,000 - ₹14,000.");
+      }
+    }
+
+    function navigateToFacilityComparison() {
+      alert("Navigating to Screen B: Comparing 14 Empanelled Hospitals & Daycare Centers in Hyderabad sorted by your priority.");
+    }
+  </script>
+</body></html>

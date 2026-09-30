@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-primary": "#ffffff", "on-secondary-container": "#006f66", "surface-dim": "#c7dcf4", "on-tertiary-fixed-variant": "#005236", "tertiary-fixed-dim": "#4edea3", "on-surface-variant": "#3f4850", "surface-container": "#e3efff", "primary-fixed": "#cce5ff", "primary": "#006194", "on-tertiary-container": "#f5fff6", "surface-container-lowest": "#ffffff", "outline-variant": "#bfc7d2", "on-primary-container": "#fdfcff", "inverse-surface": "#1d3245", "on-primary-fixed-variant": "#004b73", "surface-tint": "#006398", "on-primary-fixed": "#001d31", "inverse-on-surface": "#e8f2ff", "on-secondary-fixed": "#00201d", "error": "#ba1a1a", "error-container": "#ffdad6", "on-secondary": "#ffffff", "on-tertiary-fixed": "#002113", "surface-variant": "#cfe5fd", "surface-container-highest": "#cfe5fd", "secondary-fixed": "#89f5e7", "surface-bright": "#f7f9ff", "tertiary": "#006947", "on-secondary-fixed-variant": "#005049", "secondary-fixed-dim": "#6bd8cb", "secondary-container": "#86f2e4", "primary-container": "#007bb9", "inverse-primary": "#93ccff", "on-error-container": "#93000a", "on-surface": "#061d2f", "tertiary-container": "#00855b", "surface-container-high": "#d8eaff", "on-background": "#061d2f", "primary-fixed-dim": "#93ccff", "surface": "#f7f9ff", "tertiary-fixed": "#6ffbbe", "outline": "#707881", "on-error": "#ffffff", "surface-container-low": "#edf4ff", "background": "#f7f9ff", "secondary": "#006a61", "on-tertiary": "#ffffff" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "margin": "1rem", "space-md": "1rem", "gutter": "1rem", "margin-tablet": "2rem", "space-xs": "0.25rem", "space-xl": "2.25rem", "space-sm": "0.5rem", "margin-desktop": "3rem", "space-lg": "1.5rem", "gutter-tablet": "1.5rem", "gutter-desktop": "2rem" }, fontFamily: { "label-sm": ["Inter"], "body-md": ["Inter"], "caption": ["Inter"], "headline-md": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "display-currency": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "display-currency-mobile": ["Plus Jakarta Sans"], "body-lg-medium": ["Inter"], "body-md-medium": ["Inter"], "headline-xl-mobile": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "label-md": ["Inter"], "body-lg": ["Inter"] }, fontSize: { "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "caption": ["11px", { "lineHeight": "14px", "fontWeight": "500" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "display-currency": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "headline-lg-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "display-currency-mobile": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "body-lg-medium": ["16px", { "lineHeight": "24px", "fontWeight": "500" }], "body-md-medium": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-xl-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }] } } } }</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#f7f9ff;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}html{scroll-behavior:smooth;}@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}#hero-scroll-track{height:auto!important;}#hero-scroll-track .sticky{position:relative!important;height:auto!important;min-height:calc(100vh - 4rem)!important;}#hero-scroll-hint{display:none!important;}}</style></head><body class="text-on-surface font-body-md text-body-md min-h-screen flex flex-col antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Persistent Global Healthcare Visual Background Layer -->
+<div id="global-healthcare-bg" class="fixed inset-0 w-full h-full pointer-events-none overflow-hidden" style="z-index: 0;">
+  <!-- Continuous HTML5 Canvas Background Animation -->
+  <canvas id="hero-canvas" class="w-full h-full block pointer-events-none"></canvas>
+</div>
+
+<header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-space-md flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><img alt="CareCost AI Logo" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6v93yR7Kk9e0w7d8gVz1o"/><div class="flex flex-col truncate"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none truncate">CareCost AI</span><span class="font-caption text-caption text-on-surface-variant leading-none mt-1 truncate">Home</span></div></div><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Emergency SOS 108" class="h-12 px-space-sm rounded-full bg-error-container text-on-error-container flex items-center justify-center gap-space-xs hover:bg-error/20 active:scale-95 transition-all"><span class="material-symbols-outlined text-error text-[20px]">e911_emergency</span><span class="font-label-sm text-label-sm text-error">108</span></button><button aria-label="Language Selector" class="h-12 px-space-sm rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center gap-1 hover:bg-surface-variant transition-colors"><span class="font-label-sm text-label-sm font-semibold text-primary">EN</span><span class="font-caption text-caption text-outline">|</span><span class="font-caption text-caption text-on-surface-variant">తె|हि</span></button><button aria-label="Notifications" class="w-12 h-12 rounded-full relative flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors"><span class="material-symbols-outlined text-[24px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-error"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-1"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pb-20 min-h-screen z-10 bg-transparent">
+<!-- Hero Section with Scroll-Driven 24-Frame Background Animation -->
+<section id="hero-scroll-track" class="relative w-full min-h-[calc(100vh-4rem)] flex flex-col justify-center overflow-hidden">
+  <div class="w-full flex flex-col justify-center">
+    
+    <!-- Subtle ambient gradient for effortless left-aligned text readability while leaving right visual 100% visible -->
+    <div class="absolute inset-0 pointer-events-none" style="z-index: 2; background: radial-gradient(circle at 18% 50%, rgba(247, 249, 255, 0.45) 0%, rgba(247, 249, 255, 0.10) 55%, transparent 80%);"></div>
+
+    <!-- Minimal Content Over Animation (Positioned in LEFT portion, visual activity on the RIGHT remains in full focus) -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-space-md sm:px-margin-tablet lg:px-margin-desktop pt-16 pb-12 flex items-center min-h-0">
+      <div class="w-full max-w-xl text-left p-6 sm:p-8 lg:p-10 rounded-2xl sm:rounded-3xl backdrop-blur-md bg-white/75 border border-white/70 shadow-[0_20px_50px_rgba(0,97,148,0.06)]">
+        
+        <!-- Eyebrow -->
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary mb-3 sm:mb-4 border border-primary/20">
+          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          <span class="font-label-sm text-[11px] sm:text-label-sm uppercase tracking-widest font-bold">SMART HEALTHCARE NAVIGATION</span>
+        </div>
+
+        <!-- Main Heading -->
+        <h1 class="font-headline-xl text-2xl sm:text-3xl lg:text-[40px] lg:leading-[1.18] font-extrabold text-on-surface tracking-tight mb-3 sm:mb-4 text-balance">
+          Know Your Healthcare Costs Before You Pay.
+        </h1>
+
+        <!-- Supporting Text -->
+        <p class="font-body-lg text-sm sm:text-base text-on-surface-variant leading-relaxed mb-6 sm:mb-8 font-normal">
+          AI-powered care navigation that helps Indian families estimate medical expenses, discover nearby care options, and find insurance or government support to reduce out-of-pocket costs.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <a href="#explore-costs" id="hero-primary-cta" class="h-12 px-6 rounded-xl bg-primary text-on-primary font-body-lg-medium text-body-lg-medium flex items-center justify-center gap-2 shadow-md hover:bg-primary-container active:scale-[0.98] transition-all cursor-pointer">
+            <span class="material-symbols-outlined text-[20px]">calculate</span>
+            <span>Explore Healthcare Costs</span>
+          </a>
+          <a href="../find_care_affordability_map/code.html" id="hero-secondary-cta" class="h-12 px-6 rounded-xl bg-surface-container-highest/80 hover:bg-surface-container-highest text-primary font-body-lg-medium text-body-lg-medium flex items-center justify-center gap-2 border border-primary/20 active:scale-[0.98] transition-all cursor-pointer">
+            <span class="material-symbols-outlined text-[20px]">near_me</span>
+            <span>Find Care Near You</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Scroll Hint at Bottom of Hero -->
+    <div id="hero-scroll-hint" class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 pointer-events-none transition-opacity duration-300 opacity-80 text-on-surface-variant">
+      <span class="font-caption text-[11px] uppercase tracking-wider font-semibold">Scroll to explore</span>
+      <span class="material-symbols-outlined text-[20px] animate-bounce">expand_more</span>
+    </div>
+  </div>
+</section>
+
+<div id="explore-costs" class="flex flex-col w-full px-space-md py-space-md gap-space-md max-w-7xl mx-auto">
+<div class="w-full bg-error-container/85 backdrop-blur-md rounded-xl p-space-sm shadow-sm flex items-center justify-between gap-space-sm border border-error/20">
+<div class="flex items-center gap-space-xs min-w-0">
+<div class="w-7 h-7 rounded-full bg-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-error text-[18px]">e911_emergency</span>
+</div>
+<p class="font-caption text-caption text-on-error-container font-semibold truncate">
+        Need urgent care? Call 108 immediately or tap for emergency triage.
+      </p>
+</div>
+<a class="shrink-0 px-space-sm py-1 bg-error text-on-error rounded-full font-label-sm text-label-sm active:scale-95 transition-transform flex items-center gap-1" href="tel:108">
+<span class="material-symbols-outlined text-[14px]">call</span>
+      SOS 108
+    </a>
+</div>
+<div class="w-full bg-white/75 backdrop-blur-md rounded-2xl p-space-md shadow-md flex flex-col gap-space-md border border-white/70" id="search-card">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-bold">Cost Estimator & Search</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+        Find procedures, diagnostics, and treatments
+      </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+        Search any medical procedure or select from popular treatments below to estimate out-of-pocket costs.
+      </p>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[22px]">search</span>
+<input class="w-full h-12 pl-10 pr-10 rounded-lg bg-white/80 backdrop-blur-sm text-on-surface font-body-md text-body-md outline-none placeholder:text-outline shadow-sm focus:bg-white border border-white/80" id="treatment-search-input" placeholder="Search surgery, MRI, test (e.g. Cataract, Knee)" type="text"/>
+<button class="absolute right-3 hidden text-outline hover:text-on-surface" id="clear-search-btn">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1" style="-webkit-overflow-scrolling: touch;">
+<span class="font-caption text-caption text-on-surface-variant shrink-0 font-medium mr-1">Popular:</span>
+<button class="quick-chip shrink-0 px-space-sm py-1 bg-white/80 backdrop-blur-sm text-on-surface rounded-full font-label-sm text-label-sm shadow-sm active:scale-95 transition-all hover:bg-white border border-white/70">
+          Cataract Surgery
+        </button>
+<button class="quick-chip shrink-0 px-space-sm py-1 bg-white/80 backdrop-blur-sm text-on-surface rounded-full font-label-sm text-label-sm shadow-sm active:scale-95 transition-all hover:bg-white border border-white/70">
+          MRI Knee
+        </button>
+<button class="quick-chip shrink-0 px-space-sm py-1 bg-white/80 backdrop-blur-sm text-on-surface rounded-full font-label-sm text-label-sm shadow-sm active:scale-95 transition-all hover:bg-white border border-white/70">
+          Normal Delivery
+        </button>
+<button class="quick-chip shrink-0 px-space-sm py-1 bg-white/80 backdrop-blur-sm text-on-surface rounded-full font-label-sm text-label-sm shadow-sm active:scale-95 transition-all hover:bg-white border border-white/70">
+          Dialysis
+        </button>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-space-xs pt-1">
+<button onclick="window.location.href='../cost_estimator_benchmark/code.html'" class="h-12 w-full rounded-lg bg-primary text-on-primary font-body-lg-medium text-body-lg-medium flex items-center justify-center gap-space-xs shadow-md active:scale-[0.98] transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">calculate</span>
+<span>Estimate My Cost</span>
+</button>
+<button onclick="window.location.href='../find_care_affordability_map/code.html'" class="h-12 w-full rounded-lg bg-surface-container-highest/80 hover:bg-surface-container-highest text-primary font-body-lg-medium text-body-lg-medium flex items-center justify-center gap-space-xs active:scale-[0.98] transition-transform cursor-pointer border border-primary/10">
+<span class="material-symbols-outlined text-[20px]">near_me</span>
+<span>Find Care Near Me</span>
+</button>
+</div>
+</div>
+<div class="w-full bg-white/75 backdrop-blur-md rounded-2xl p-space-md shadow-md flex flex-col gap-space-md border border-white/70">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wide text-secondary font-bold">Active Estimate</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-caption text-caption">
+<span class="material-symbols-outlined text-[15px]">location_on</span>
+        Hyderabad, TS
+      </div>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+        Cataract Surgery
+      </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+        Phacoemulsification with Foldable Monofocal IOL
+      </p>
+</div>
+<div class="bg-primary/5 backdrop-blur-sm rounded-lg p-space-sm flex flex-col gap-space-xs border border-primary/10">
+<div class="flex items-baseline justify-between">
+<span class="font-caption text-caption text-on-surface-variant font-medium">Estimated Hospital Range</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Typical: ₹38,500</span>
+</div>
+<div class="font-display-currency-mobile text-display-currency-mobile text-on-surface tracking-tight">
+        ₹32,000 <span class="font-headline-sm text-headline-sm text-on-surface-variant font-normal">–</span> ₹48,000
+      </div>
+</div>
+<div class="bg-secondary-container/20 backdrop-blur-sm rounded-lg p-space-sm flex flex-col gap-1.5 border border-secondary/20">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-[18px]">verified_user</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">Covered via PM-JAY / Aarogyasri / TPA</span>
+</div>
+<span class="font-caption text-caption text-secondary font-semibold">Up to ₹30,000</span>
+</div>
+<div class="w-full bg-surface-container-highest/60 rounded-full h-2 overflow-hidden flex">
+<div class="bg-secondary h-full rounded-full" style="width: 72%"></div>
+</div>
+<span class="font-caption text-caption text-on-surface-variant">
+        Includes Daycare OT, IOL lens allowance, pre-op scan.
+      </span>
+</div>
+<div class="bg-primary-fixed/20 backdrop-blur-sm rounded-lg p-space-sm flex items-center justify-between border border-primary/15">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant font-medium">Your Out-Of-Pocket (OOP)</span>
+<span class="font-headline-md text-headline-md text-primary font-bold">₹6,000 – ₹14,000</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-space-xs py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">trending_down</span>
+          Saves ~₹24k
+        </span>
+<span class="font-caption text-caption text-on-surface-variant mt-1">Tier-2 NABH package</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-xs pt-1">
+<button onclick="window.location.href='../out_of_pocket_cost_breakdown/code.html'" class="h-10 rounded-lg bg-surface-container-highest/80 hover:bg-surface-container-highest text-primary font-label-md text-label-md flex items-center justify-center gap-1 active:scale-95 transition-transform cursor-pointer border border-primary/10">
+<span class="material-symbols-outlined text-[16px]">receipt_long</span>
+        Breakdown
+      </button>
+<button onclick="window.location.href='../find_care_affordability_map/code.html'" class="h-10 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-1 active:scale-95 transition-transform shadow-sm cursor-pointer">
+<span class="material-symbols-outlined text-[16px]">domain</span>
+        Compare 4 Labs
+      </button>
+</div>
+</div>
+<div class="w-full bg-white/75 backdrop-blur-md rounded-2xl p-space-md shadow-md flex flex-col gap-space-sm border border-white/70">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">
+        Your 4-Step Cost Journey
+      </span>
+<span class="px-space-xs py-0.5 bg-primary-fixed text-on-primary-fixed rounded font-caption text-caption font-semibold">
+        AI Navigator
+      </span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+      A transparent roadmap so you never face surprise hospital billing.
+    </p>
+<div class="flex flex-col gap-2.5 mt-1">
+<div class="flex items-start gap-space-sm p-space-sm bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-white/60">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-headline-sm text-headline-sm shrink-0 font-bold">
+          1
+        </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold">What will it cost?</span>
+<span class="font-caption text-caption text-on-surface-variant">Real-world AI pricing ranges calculated across local clinics &amp; tier-1 hospitals.</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-white/60">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-primary flex items-center justify-center font-headline-sm text-headline-sm shrink-0 font-bold">
+          2
+        </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Where can I get it?</span>
+<span class="font-caption text-caption text-on-surface-variant">Compare NABH/JCI accredited surgical centers with verified quality &amp; hygiene metrics.</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-white/60">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-headline-sm text-headline-sm shrink-0 font-bold">
+          3
+        </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Can I get financial support?</span>
+<span class="font-caption text-caption text-on-surface-variant">Instant rule matching for Ayushman Bharat (PM-JAY), Aarogyasri, CGHS, &amp; TPAs.</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-white/60">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-headline-sm text-headline-sm shrink-0 font-bold">
+          4
+        </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold">What might I actually pay?</span>
+<span class="font-caption text-caption text-on-surface-variant">Calculate exact co-pays, consumable deductions, room-rent caps, and net out-of-pocket.</span>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+        Smart Financial Tools
+      </h3>
+<span class="font-caption text-caption text-primary font-semibold">All Features</span>
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<div onclick="window.location.href='../out_of_pocket_cost_breakdown/code.html'" class="bg-white/75 backdrop-blur-md rounded-xl p-space-sm shadow-sm flex flex-col justify-between gap-space-sm active:scale-[0.98] transition-all cursor-pointer hover:shadow-md border border-white/70">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[22px]">tune</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold leading-tight">What-If OOP Simulator</span>
+<span class="font-caption text-caption text-on-surface-variant mt-1">Simulate ward upgrades &amp; cashless limits.</span>
+</div>
+</div>
+<div onclick="window.location.href='../government_schemes_eligibility/code.html'" class="bg-white/75 backdrop-blur-md rounded-xl p-space-sm shadow-sm flex flex-col justify-between gap-space-sm active:scale-[0.98] transition-all cursor-pointer hover:shadow-md border border-white/70">
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-[22px]">assured_workload</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold leading-tight">Govt Scheme Finder</span>
+<span class="font-caption text-caption text-on-surface-variant mt-1">PM-JAY, CGHS, &amp; State welfare eligibility.</span>
+</div>
+</div>
+<div onclick="window.location.href='../saved_and_family/code.html'" class="bg-white/75 backdrop-blur-md rounded-xl p-space-sm shadow-sm flex flex-col justify-between gap-space-sm active:scale-[0.98] transition-all cursor-pointer hover:shadow-md border border-white/70">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[22px]">checklist_rtl</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold leading-tight">Admission Checklist</span>
+<span class="font-caption text-caption text-on-surface-variant mt-1">Avoid surprise consumable billing spikes.</span>
+</div>
+</div>
+<div onclick="window.location.href='../saved_and_family/code.html'" class="bg-white/75 backdrop-blur-md rounded-xl p-space-sm shadow-sm flex flex-col justify-between gap-space-sm active:scale-[0.98] transition-all cursor-pointer hover:shadow-md border border-white/70">
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-outlined text-[22px]">family_restroom</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold leading-tight">Caregiver Mode</span>
+<span class="font-caption text-caption text-on-surface-variant mt-1">Manage elder parents &amp; child health caps.</span>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full rounded-xl bg-white/75 backdrop-blur-md p-space-md shadow-sm flex items-center gap-space-sm border border-white/70">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[24px]">security</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">100% Private &amp; NDHM Compliant</span>
+<p class="font-caption text-caption text-on-surface-variant leading-snug mt-0.5">
+        Benchmarked against standard CGHS packages and verified Indian municipal clinical rates.
+      </p>
+</div>
+</div>
+
+<!-- Section 8: Final Call-to-Action -->
+<div class="w-full rounded-2xl bg-gradient-to-br from-primary/95 via-primary-container/90 to-primary/95 backdrop-blur-md text-on-primary p-6 sm:p-8 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-1 border border-white/20">
+  <div class="flex flex-col max-w-lg">
+    <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-white/15 text-white w-fit mb-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed"></span>
+      <span class="font-label-sm text-[11px] uppercase tracking-wider font-semibold">Take Control Of Care Costs</span>
+    </div>
+    <h3 class="font-headline-sm text-headline-sm font-bold text-white tracking-tight">
+      Ready to navigate your family's healthcare expenses?
+    </h3>
+    <p class="font-body-md text-sm text-white/85 mt-1.5 leading-relaxed">
+      Compare verified hospital packages, calculate out-of-pocket deductions, and access government support in seconds.
+    </p>
+  </div>
+  <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto shrink-0">
+    <a href="../cost_estimator_benchmark/code.html" class="h-11 px-5 rounded-xl bg-white text-primary font-body-lg-medium text-body-md flex items-center justify-center gap-2 shadow-sm hover:bg-surface-bright active:scale-95 transition-all">
+      <span class="material-symbols-outlined text-[18px]">calculate</span>
+      <span>Start Free Estimate</span>
+    </a>
+    <a href="../find_care_affordability_map/code.html" class="h-11 px-5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-body-lg-medium text-body-md flex items-center justify-center gap-2 border border-white/25 active:scale-95 transition-all">
+      <span class="material-symbols-outlined text-[18px]">near_me</span>
+      <span>Find Facilities</span>
+    </a>
+  </div>
+</div>
+
+</div>
+<script>
+  (function initHeroScrollAnimation() {
+    const canvas = document.getElementById('hero-canvas');
+    const heroTrack = document.getElementById('hero-scroll-track');
+    const scrollHint = document.getElementById('hero-scroll-hint');
+    const primaryCta = document.getElementById('hero-primary-cta');
+
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d', { alpha: false });
+    if (!ctx) return;
+
+    const FRAME_COUNT = 24;
+    const ezgifIndices = [1, 8, 15, 22, 30, 37, 44, 51, 58, 65, 72, 79, 87, 94, 101, 108, 115, 122, 129, 136, 144, 151, 158, 165];
+    const frames = new Array(FRAME_COUNT);
+    let loadedCount = 0;
+    let hasRenderedFirstFrame = false;
+
+    let currentProgress = 0;
+    let targetProgress = 0;
+    let isAnimating = false;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Handle high-DPI and responsive sizing
+    function resizeCanvas() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      renderCanvas();
+    }
+
+    // Cover-fit rendering (aspect ratio preserving)
+    function drawImageCover(img, alpha = 1) {
+      if (!img || !img.complete || !img.naturalWidth) return;
+      const canvasW = canvas.clientWidth;
+      const canvasH = canvas.clientHeight;
+      const imgW = img.naturalWidth;
+      const imgH = img.naturalHeight;
+
+      const hRatio = canvasW / imgW;
+      const vRatio = canvasH / imgH;
+      const ratio = Math.max(hRatio, vRatio);
+
+      const drawW = imgW * ratio;
+      const drawH = imgH * ratio;
+      const drawX = (canvasW - drawW) / 2;
+      const drawY = (canvasH - drawH) / 2;
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(img, drawX, drawY, drawW, drawH);
+      ctx.restore();
+    }
+
+    function renderCanvas() {
+      const canvasW = canvas.clientWidth;
+      const canvasH = canvas.clientHeight;
+      if (!canvasW || !canvasH) return;
+
+      // Background fill matching page surface
+      ctx.fillStyle = '#f7f9ff';
+      ctx.fillRect(0, 0, canvasW, canvasH);
+
+      if (prefersReducedMotion) {
+        const staticImg = frames[FRAME_COUNT - 1] || frames[0];
+        if (staticImg && staticImg.complete) {
+          drawImageCover(staticImg, 1);
+        }
+        return;
+      }
+
+      const virtualFrame = currentProgress * (FRAME_COUNT - 1);
+      const baseIndex = Math.floor(virtualFrame);
+      const nextIndex = Math.min(FRAME_COUNT - 1, baseIndex + 1);
+      const blend = virtualFrame - baseIndex;
+
+      const baseImg = frames[baseIndex];
+      const nextImg = frames[nextIndex];
+
+      if (baseImg && baseImg.complete) {
+        drawImageCover(baseImg, 1);
+      } else {
+        // Fallback to nearest loaded frame
+        for (let offset = 1; offset < FRAME_COUNT; offset++) {
+          const prev = frames[baseIndex - offset];
+          const next = frames[baseIndex + offset];
+          if (prev && prev.complete) {
+            drawImageCover(prev, 1);
+            break;
+          } else if (next && next.complete) {
+            drawImageCover(next, 1);
+            break;
+          }
+        }
+      }
+
+      if (nextIndex !== baseIndex && blend > 0.005 && nextImg && nextImg.complete) {
+        drawImageCover(nextImg, blend);
+      }
+    }
+
+    // Map frames 1-24 to the total scroll height of the entire landing page
+    function getScrollProgress() {
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const maxScroll = docHeight - windowHeight;
+      if (maxScroll <= 0) return 0;
+      const currentScroll = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+      return Math.max(0, Math.min(1, currentScroll / maxScroll));
+    }
+
+    function onScroll() {
+      const rawProgress = getScrollProgress();
+      targetProgress = rawProgress;
+
+      // Toggle scroll hint opacity
+      if (scrollHint) {
+        if (rawProgress > 0.03) {
+          scrollHint.style.opacity = '0';
+        } else {
+          scrollHint.style.opacity = '0.8';
+        }
+      }
+
+      if (!isAnimating) {
+        isAnimating = true;
+        requestAnimationFrame(renderLoop);
+      }
+    }
+
+    function renderLoop() {
+      const diff = targetProgress - currentProgress;
+      if (Math.abs(diff) > 0.0008) {
+        currentProgress += diff * 0.16;
+      } else {
+        currentProgress = targetProgress;
+        isAnimating = false;
+      }
+
+      renderCanvas();
+
+      if (isAnimating) {
+        requestAnimationFrame(renderLoop);
+      }
+    }
+
+    // Preload frames progressively
+    function loadFrame(index, onComplete) {
+      const img = new Image();
+      const pad = String(index + 1).padStart(2, '0');
+      
+      img.onload = () => {
+        frames[index] = img;
+        loadedCount++;
+        if (!hasRenderedFirstFrame && (index === 0 || frames[0])) {
+          hasRenderedFirstFrame = true;
+          renderCanvas();
+        }
+        if (onComplete) onComplete();
+      };
+
+      img.onerror = () => {
+        // Fallback to relative path in root frames folder if local is unavailable
+        const ezNum = String(ezgifIndices[index]).padStart(3, '0');
+        const fallbackImg = new Image();
+        fallbackImg.onload = () => {
+          frames[index] = fallbackImg;
+          loadedCount++;
+          if (!hasRenderedFirstFrame && (index === 0 || frames[0])) {
+            hasRenderedFirstFrame = true;
+            renderCanvas();
+          }
+          if (onComplete) onComplete();
+        };
+        fallbackImg.src = `../../frames/ezgif-frame-${ezNum}.jpg`;
+      };
+
+      img.src = `./frames/frame-${pad}.jpg`;
+    }
+
+    // Frame 0 loads first, then remaining 23 frames in background
+    loadFrame(0, () => {
+      for (let i = 1; i < FRAME_COUNT; i++) {
+        loadFrame(i);
+      }
+    });
+
+    // Smooth scroll for Primary CTA
+    if (primaryCta) {
+      primaryCta.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.getElementById('explore-costs');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    if (!prefersReducedMotion) {
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+
+    // Initial sizing and render
+    resizeCanvas();
+    onScroll();
+  })();
+
+  (function initDashboardInteractions() {
+    const input = document.getElementById('treatment-search-input');
+    const clearBtn = document.getElementById('clear-search-btn');
+    const quickChips = document.querySelectorAll('.quick-chip');
+
+    if (input && clearBtn) {
+      input.addEventListener('input', () => {
+        if (input.value.trim().length > 0) {
+          clearBtn.classList.remove('hidden');
+        } else {
+          clearBtn.classList.add('hidden');
+        }
+      });
+
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        clearBtn.classList.add('hidden');
+        input.focus();
+      });
+    }
+
+    quickChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        if (input) {
+          input.value = chip.textContent.trim();
+          if (clearBtn) clearBtn.classList.remove('hidden');
+          input.focus();
+        }
+      });
+    });
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)]" data-active-classes="text-primary font-body-md-medium"><div class="h-20 px-space-xs grid grid-cols-5 items-center justify-items-center"><a aria-current="page" class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] transition-colors gap-1 text-primary font-body-md-medium" data-path="home" href="#"><span class="material-symbols-outlined text-[22px]">grid_view</span><span class="font-caption text-caption tracking-tight">Home</span></a><a class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-on-surface-variant hover:text-primary transition-colors gap-1" data-path="cost-estimator" href="../cost_estimator_benchmark/code.html"><span class="material-symbols-outlined text-[22px]">calculate</span><span class="font-caption text-caption tracking-tight">Estimator</span></a><a class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-on-surface-variant hover:text-primary transition-colors gap-1" data-path="find-care" href="../find_care_affordability_map/code.html"><span class="material-symbols-outlined text-[22px]">local_hospital</span><span class="font-caption text-caption tracking-tight">Find Care</span></a><a class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-on-surface-variant hover:text-primary transition-colors gap-1" data-path="schemes-and-oop" href="../government_schemes_eligibility/code.html"><span class="material-symbols-outlined text-[22px]">health_and_safety</span><span class="font-caption text-caption tracking-tight">Schemes</span></a><a class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-on-surface-variant hover:text-primary transition-colors gap-1" data-path="saved-and-family" href="../saved_and_family/code.html"><span class="material-symbols-outlined text-[22px]">bookmarks</span><span class="font-caption text-caption tracking-tight">Saved</span></a></div></nav></body></html>

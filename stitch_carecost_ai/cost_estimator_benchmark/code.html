@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+  <meta content="mobile_tab" name="shell-type"/>
+  <title>CareCost AI - Healthcare Cost Estimator & Benchmark</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-primary": "#ffffff",
+            "on-secondary-container": "#006f66",
+            "surface-dim": "#c7dcf4",
+            "on-tertiary-fixed-variant": "#005236",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-surface-variant": "#3f4850",
+            "surface-container": "#e3efff",
+            "primary-fixed": "#cce5ff",
+            "primary": "#006194",
+            "on-tertiary-container": "#f5fff6",
+            "surface-container-lowest": "#ffffff",
+            "outline-variant": "#bfc7d2",
+            "on-primary-container": "#fdfcff",
+            "inverse-surface": "#1d3245",
+            "on-primary-fixed-variant": "#004b73",
+            "surface-tint": "#006398",
+            "on-primary-fixed": "#001d31",
+            "inverse-on-surface": "#e8f2ff",
+            "on-secondary-fixed": "#00201d",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed": "#002113",
+            "surface-variant": "#cfe5fd",
+            "surface-container-highest": "#cfe5fd",
+            "secondary-fixed": "#89f5e7",
+            "surface-bright": "#f7f9ff",
+            "tertiary": "#006947",
+            "on-secondary-fixed-variant": "#005049",
+            "secondary-fixed-dim": "#6bd8cb",
+            "secondary-container": "#86f2e4",
+            "primary-container": "#007bb9",
+            "inverse-primary": "#93ccff",
+            "on-error-container": "#93000a",
+            "on-surface": "#061d2f",
+            "tertiary-container": "#00855b",
+            "surface-container-high": "#d8eaff",
+            "on-background": "#061d2f",
+            "primary-fixed-dim": "#93ccff",
+            "surface": "#f7f9ff",
+            "tertiary-fixed": "#6ffbbe",
+            "outline": "#707881",
+            "on-error": "#ffffff",
+            "surface-container-low": "#edf4ff",
+            "background": "#f7f9ff",
+            "secondary": "#006a61",
+            "on-tertiary": "#ffffff"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "margin": "1rem",
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "margin-tablet": "2rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.25rem",
+            "space-sm": "0.5rem",
+            "margin-desktop": "3rem",
+            "space-lg": "1.5rem",
+            "gutter-tablet": "1.5rem",
+            "gutter-desktop": "2rem"
+          },
+          fontFamily: {
+            "label-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "caption": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "display-currency": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "display-currency-mobile": ["Plus Jakarta Sans"],
+            "body-lg-medium": ["Inter"],
+            "body-md-medium": ["Inter"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"],
+            "body-lg": ["Inter"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @layer base {
+      html, body { width: 100%; margin: 0; padding: 0; background-color: #f7f9ff; }
+      body { overscroll-behavior-y: none; -webkit-tap-highlight-color: transparent; }
+      .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+      .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+
+  <!-- Load Data Layer Modules -->
+  <script src="../data/treatments.js"></script>
+  <script src="../data/facilities.js"></script>
+  <script src="../data/governmentSchemes.js"></script>
+  <script src="../data/insurance.js"></script>
+  <script src="../data/mockData.js"></script>
+</head>
+<body class="text-on-surface font-body-md text-body-md min-h-screen flex flex-col antialiased selection:bg-primary-fixed selection:text-on-primary-fixed" style="background-color: transparent;">
+
+  <!-- Persistent Global Healthcare Visual Background Layer (Frame 24) -->
+  <div id="global-healthcare-bg" class="fixed inset-0 w-full h-full pointer-events-none overflow-hidden" style="z-index: 0;">
+    <canvas id="persistent-bg-canvas" class="w-full h-full block pointer-events-none"></canvas>
+    <div style="position: absolute; inset: 0; background: rgba(247, 249, 255, 0.40); pointer-events: none;"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="h-16 px-space-md flex items-center justify-between gap-space-sm max-w-5xl mx-auto w-full">
+      <div class="flex items-center gap-space-sm min-w-0">
+        <a href="../carecost_ai_home_dashboard/code.html" class="flex items-center gap-space-xs hover:opacity-80 transition-opacity">
+          <span class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-sm">₹</span>
+          <div class="flex flex-col truncate">
+            <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none truncate font-bold">CareCost AI</span>
+            <span class="font-caption text-caption text-on-surface-variant leading-none mt-1 truncate">Cost Estimator</span>
+          </div>
+        </a>
+      </div>
+      <div class="flex items-center gap-space-xs shrink-0">
+        <a href="tel:108" aria-label="Emergency SOS 108" class="h-10 px-space-sm rounded-full bg-error-container text-on-error-container flex items-center justify-center gap-space-xs hover:bg-error/20 active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-error text-[18px]">e911_emergency</span>
+          <span class="font-label-sm text-label-sm text-error font-bold">108</span>
+        </a>
+        <a href="../saved_and_family/code.html" title="Saved & Bookmarks" class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors relative">
+          <span class="material-symbols-outlined text-[22px]">bookmarks</span>
+          <span id="saved-badge" class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary hidden"></span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex flex-col relative w-full pt-20 pb-28 bg-transparent min-h-screen max-w-5xl mx-auto px-space-md" style="z-index: 1;">
+    
+    <!-- Top Narrative Banner -->
+    <div class="flex flex-col gap-1.5 mb-space-md">
+      <div class="inline-flex items-center gap-1.5 self-start px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary">
+        <span class="material-symbols-outlined text-[15px]">auto_awesome</span>
+        <span class="font-caption text-caption uppercase tracking-wider font-semibold">AI Cost Benchmark Engine</span>
+      </div>
+      <h1 class="font-headline-lg-mobile md:font-headline-lg text-on-surface tracking-tight font-bold">
+        Healthcare Cost Estimator
+      </h1>
+      <p class="font-body-md text-body-md text-on-surface-variant">
+        Transparent cost ranges based on 45,000+ verified Indian hospital tariffs, CGHS packages, and PM-JAY schedule benchmarks.
+      </p>
+    </div>
+
+    <!-- Estimator Input Controls Card -->
+    <div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md mb-space-md border border-surface-container">
+      
+      <!-- Treatment Selector Header -->
+      <div class="flex flex-col gap-1.5">
+        <label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between">
+          <span class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[18px]">medical_services</span>
+            Medical Condition / Treatment
+          </span>
+          <span class="font-caption text-caption text-on-surface-variant">7 Indian Benchmarks</span>
+        </label>
+        <div class="relative">
+          <select id="treatment-select" class="w-full h-12 px-3 pr-10 rounded-lg bg-surface-container-low text-on-surface font-body-md-medium border border-outline-variant/40 focus:border-primary focus:outline-none appearance-none cursor-pointer transition-colors" onchange="handleTreatmentChange()">
+            <!-- Populated dynamically via JS -->
+          </select>
+          <span class="material-symbols-outlined absolute right-3 top-3 text-on-surface-variant pointer-events-none">unfold_more</span>
+        </div>
+        <p id="treatment-description" class="font-caption text-caption text-on-surface-variant italic mt-0.5"></p>
+      </div>
+
+      <!-- Grid: Location, Age, Facility Type, Ward Tier -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+        
+        <!-- Patient Age -->
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between">
+            <label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-primary text-[18px]">elderly</span>
+              Patient Age Group
+            </label>
+            <span id="senior-badge" class="font-caption text-caption text-tertiary font-semibold bg-tertiary-container/10 px-2 py-0.5 rounded-full">Senior Benefits Available</span>
+          </div>
+          <div class="grid grid-cols-4 gap-1.5" id="age-selector">
+            <button type="button" data-age="15" onclick="selectAge(this)" class="h-10 px-2 rounded-lg bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container transition-all">
+              &lt; 18
+            </button>
+            <button type="button" data-age="35" onclick="selectAge(this)" class="h-10 px-2 rounded-lg bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container transition-all">
+              18–45
+            </button>
+            <button type="button" data-age="52" onclick="selectAge(this)" class="h-10 px-2 rounded-lg bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container transition-all">
+              45–60
+            </button>
+            <button type="button" data-age="65" onclick="selectAge(this)" class="h-10 px-2 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm shadow-sm transition-all font-semibold active-age">
+              60+
+            </button>
+          </div>
+        </div>
+
+        <!-- Facility Category Preference -->
+        <div class="flex flex-col gap-1.5">
+          <label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[18px]">apartment</span>
+            Preferred Facility Category
+          </label>
+          <div class="grid grid-cols-2 gap-1.5" id="facility-tier-selector">
+            <button type="button" data-tier="govt" onclick="selectFacilityTier(this)" class="p-2 rounded-lg bg-surface-container-low text-left border border-transparent hover:bg-surface-container transition-all flex flex-col justify-center">
+              <span class="font-label-sm text-label-sm text-on-surface font-medium">Government / Free</span>
+              <span class="font-caption text-caption text-tertiary font-semibold">₹0 – Minimal</span>
+            </button>
+            <button type="button" data-tier="trust" onclick="selectFacilityTier(this)" class="p-2 rounded-lg bg-surface-container-low text-left border border-transparent hover:bg-surface-container transition-all flex flex-col justify-center">
+              <span class="font-label-sm text-label-sm text-on-surface font-medium">Trust / Charitable</span>
+              <span class="font-caption text-caption text-primary font-semibold">Subsidized Tier</span>
+            </button>
+            <button type="button" data-tier="privateTier2" onclick="selectFacilityTier(this)" class="p-2 rounded-lg bg-surface-container border border-primary text-left transition-all flex flex-col justify-center active-tier">
+              <span class="font-label-sm text-label-sm text-primary font-bold">NABH Private</span>
+              <span class="font-caption text-caption text-on-surface-variant">Recommended</span>
+            </button>
+            <button type="button" data-tier="privateTier1" onclick="selectFacilityTier(this)" class="p-2 rounded-lg bg-surface-container-low text-left border border-transparent hover:bg-surface-container transition-all flex flex-col justify-center">
+              <span class="font-label-sm text-label-sm text-on-surface font-medium">Super-Specialty</span>
+              <span class="font-caption text-caption text-outline">Premium / Quaternary</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial Coverage Options -->
+      <div class="flex flex-col gap-2 pt-1 border-t border-surface-container">
+        <label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between">
+          <span class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[18px]">shield</span>
+            Active Financial Support & Coverage
+          </span>
+          <span class="font-caption text-caption text-on-surface-variant">Toggles recalculate live</span>
+        </label>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          
+          <!-- PM-JAY / Aarogyasri Toggle -->
+          <div id="toggle-pmjay-box" onclick="toggleSchemeBox()" class="p-2.5 rounded-lg bg-surface-container-low border border-transparent flex items-center justify-between cursor-pointer hover:bg-surface-container transition-all">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-tertiary text-[20px]">health_and_safety</span>
+              <div class="flex flex-col">
+                <span class="font-label-sm text-label-sm text-on-surface font-medium">PM-JAY / Aarogyasri</span>
+                <span class="font-caption text-caption text-on-surface-variant">Govt Health Scheme</span>
+              </div>
+            </div>
+            <span id="pmjay-check-icon" class="material-symbols-outlined text-primary text-[22px]">check_box</span>
+          </div>
+
+          <!-- Private Insurance Toggle -->
+          <div id="toggle-insurance-box" onclick="toggleInsuranceBox()" class="p-2.5 rounded-lg bg-surface-container border border-primary flex items-center justify-between cursor-pointer transition-all">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-[20px]">account_balance_wallet</span>
+              <div class="flex flex-col">
+                <span class="font-label-sm text-label-sm text-primary font-bold">Private Insurance</span>
+                <span class="font-caption text-caption text-on-surface-variant">Cashless TPA Cover</span>
+              </div>
+            </div>
+            <span id="insurance-check-icon" class="material-symbols-outlined text-primary text-[22px]">check_box</span>
+          </div>
+
+          <!-- Ward Tier Selector -->
+          <div class="p-2.5 rounded-lg bg-surface-container-low flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-outline text-[20px]">hotel</span>
+              <div class="flex flex-col">
+                <span class="font-label-sm text-label-sm text-on-surface font-medium">Ward Class</span>
+                <select id="ward-select" onchange="recalculate()" class="bg-transparent font-caption text-caption text-primary font-semibold outline-none cursor-pointer">
+                  <option value="twin" selected>Twin Sharing</option>
+                  <option value="general">General Ward</option>
+                  <option value="private">Private Single</option>
+                  <option value="deluxe">Deluxe Suite</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Cost Estimation Output Card (Feature 1) -->
+    <div class="bg-surface-container-lowest rounded-xl p-space-md shadow-md flex flex-col gap-space-md mb-space-md border border-surface-container">
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm border-b border-surface-container">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">
+              <span class="material-symbols-outlined text-[14px]">price_change</span>
+              Estimated Cost Range
+            </span>
+            <span class="font-caption text-caption text-on-surface-variant">• Hyderabad Benchmark</span>
+          </div>
+          <div class="flex items-baseline gap-2 mt-2">
+            <span id="output-cost-range" class="font-display-currency-mobile md:font-display-currency text-on-surface font-extrabold tracking-tight">₹32,000 – ₹42,000</span>
+          </div>
+          <div class="font-body-md text-body-md text-on-surface-variant mt-0.5" id="output-typical-cost">
+            Typical Hospital Benchmark: <strong class="text-primary font-bold">₹34,000</strong>
+          </div>
+        </div>
+
+        <!-- Net Out-Of-Pocket (OOP) Highlight Card -->
+        <div class="p-space-sm rounded-xl bg-surface-container-high/60 border border-primary/20 flex flex-col gap-1 min-w-[240px]">
+          <div class="flex items-center justify-between">
+            <span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider font-semibold">Estimated Out-of-Pocket</span>
+            <span id="oop-savings-pill" class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption font-bold flex items-center gap-0.5">
+              <span class="material-symbols-outlined text-[12px]">trending_down</span> Saves ~₹25k
+            </span>
+          </div>
+          <div id="output-oop-range" class="font-headline-md md:font-headline-lg text-primary font-extrabold tracking-tight">
+            ₹6,000 – ₹11,500
+          </div>
+          <span class="font-caption text-caption text-on-surface-variant">
+            Patient contribution after scheme / insurance absorption
+          </span>
+        </div>
+      </div>
+
+      <!-- Feature 2: Visual Cost Breakdown -->
+      <div class="flex flex-col gap-space-sm">
+        <div class="flex items-center justify-between">
+          <h3 class="font-label-md text-label-md text-on-surface font-bold flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[18px]">bar_chart</span>
+            Cost Breakdown by Category
+          </h3>
+          <span class="font-caption text-caption text-on-surface-variant">Typical Package: <span id="breakdown-total-label" class="font-bold text-on-surface">₹34,000</span></span>
+        </div>
+
+        <!-- Segmented Visual Bar -->
+        <div class="h-3 w-full rounded-full bg-surface-container-high flex overflow-hidden shadow-inner" id="breakdown-bar">
+          <div id="bar-procedure" class="h-full bg-primary" style="width: 52%" title="Procedure"></div>
+          <div id="bar-facility" class="h-full bg-primary-container" style="width: 14%" title="Facility"></div>
+          <div id="bar-diagnostics" class="h-full bg-secondary" style="width: 12%" title="Diagnostics"></div>
+          <div id="bar-medication" class="h-full bg-secondary-container" style="width: 11%" title="Medication"></div>
+          <div id="bar-consultation" class="h-full bg-tertiary" style="width: 5%" title="Consultation"></div>
+          <div id="bar-followup" class="h-full bg-outline-variant" style="width: 6%" title="Follow-up"></div>
+        </div>
+
+        <!-- Detailed Breakdown Grid (6 Categories) -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-2 pt-1" id="breakdown-cards-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Absorption Comparison Summary -->
+      <div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-2">
+        <div class="flex items-center justify-between text-caption font-caption">
+          <span class="font-semibold text-on-surface">How Your Bill Is Covered:</span>
+          <span class="text-tertiary font-bold" id="coverage-percentage-label">75% Absorbed</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div class="flex items-center gap-2 p-2 rounded-lg bg-surface-container-lowest">
+            <span class="w-3 h-3 rounded-full bg-secondary shrink-0"></span>
+            <div class="flex flex-col truncate">
+              <span class="font-caption text-caption text-on-surface-variant">Govt Scheme</span>
+              <span id="sum-govt-support" class="font-label-sm text-label-sm text-on-surface font-bold">₹18,000</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 p-2 rounded-lg bg-surface-container-lowest">
+            <span class="w-3 h-3 rounded-full bg-primary shrink-0"></span>
+            <div class="flex flex-col truncate">
+              <span class="font-caption text-caption text-on-surface-variant">Insurance</span>
+              <span id="sum-insurance-support" class="font-label-sm text-label-sm text-on-surface font-bold">₹7,500</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 p-2 rounded-lg bg-surface-container-lowest">
+            <span class="w-3 h-3 rounded-full bg-tertiary shrink-0"></span>
+            <div class="flex flex-col truncate">
+              <span class="font-caption text-caption text-on-surface-variant">Your Out-Of-Pocket</span>
+              <span id="sum-patient-oop" class="font-label-sm text-label-sm text-primary font-bold">₹8,500</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 10: AI Insights Panel -->
+      <div class="rounded-xl bg-surface-container p-space-sm flex flex-col gap-2 border border-surface-container-high">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5 text-primary">
+            <span class="material-symbols-outlined text-[18px]">psychology</span>
+            <span class="font-label-sm text-label-sm font-bold uppercase tracking-wider">AI Insights & Advice</span>
+          </div>
+          <span class="font-caption text-caption text-on-surface-variant bg-surface-container-highest px-2 py-0.5 rounded-full">AI-assisted insight — prototype</span>
+        </div>
+        <div id="ai-insights-container" class="flex flex-col gap-2">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Action Buttons Row -->
+      <div class="flex flex-wrap items-center gap-space-xs pt-2">
+        <button id="btn-save-estimate" onclick="saveCurrentEstimate()" type="button" class="h-11 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-[18px]">bookmark_add</span>
+          <span>Save Estimate</span>
+        </button>
+        <a id="btn-find-care-link" href="../find_care_affordability_map/code.html" class="h-11 px-4 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-bold flex items-center justify-center gap-1.5 active:scale-95 transition-all shadow-sm">
+          <span class="material-symbols-outlined text-[18px]">local_hospital</span>
+          <span>Find & Compare Facilities</span>
+        </a>
+        <a id="btn-oop-simulator-link" href="../out_of_pocket_cost_breakdown/code.html" class="h-11 px-4 rounded-lg bg-secondary hover:bg-secondary/90 text-on-secondary font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-[18px]">tune</span>
+          <span>What-If OOP Simulator</span>
+        </a>
+      </div>
+
+      <!-- Disclaimer Label -->
+      <p class="font-caption text-caption text-outline italic leading-tight">
+        *Estimated range based on sample data. Prototype demonstration only. Not guaranteed medical or financial advice. Hospital tariffs vary based on clinical profile and co-morbidities.
+      </p>
+    </div>
+
+    <!-- Feature 8: Personalized Care Path Journey -->
+    <div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md mb-space-md border border-surface-container">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="font-caption text-caption text-primary uppercase font-bold tracking-wider">Step-by-Step Care Journey</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Personalized Care Pathway</h3>
+        </div>
+        <span class="material-symbols-outlined text-primary text-[28px]">timeline</span>
+      </div>
+      <p class="font-body-md text-body-md text-on-surface-variant -mt-2">
+        Transparent clinical progression from initial consultation to complete post-operative follow-up.
+      </p>
+
+      <!-- Pathway Steps Track -->
+      <div class="flex flex-col gap-3 relative before:absolute before:left-4 before:top-4 before:bottom-4 before:w-0.5 before:bg-surface-container-high" id="care-path-container">
+        <!-- Dynamically rendered steps -->
+      </div>
+    </div>
+
+    <!-- Toast Notification for LocalStorage Saves -->
+    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full bg-inverse-surface text-inverse-on-surface font-label-sm text-label-sm shadow-xl flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300">
+      <span class="material-symbols-outlined text-[18px] text-tertiary-fixed">check_circle</span>
+      <span id="toast-message">Estimate saved to your dashboard!</span>
+    </div>
+
+  </main>
+
+  <!-- Bottom Navigation (Fixed Across All Pages) -->
+  <nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)] border-t border-surface-container">
+    <div class="h-20 px-space-xs grid grid-cols-5 items-center justify-items-center max-w-5xl mx-auto">
+      <a class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-on-surface-variant hover:text-primary transition-colors gap-1" data-path="home" href="../carecost_ai_home_dashboard/code.html">
+        <span class="material-symbols-outlined text-[22px]">grid_view</span>
+        <span class="font-caption text-caption tracking-tight">Home</span>
+      </a>
+      <a aria-current="page" class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] transition-colors gap-1 text-primary font-body-md-medium" data-path="cost-estimator" href="../cost_estimator_benchmark/code.html">
+        <span class="material-symbols-outlined text-[22px]">calculate</span>
+        <span class="font-caption text-caption tracking-tight">Estimator</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-on-surface-variant hover:text-primary transition-colors gap-1" data-path="find-care" href="../find_care_affordability_map/code.html">
+        <span class="material-symbols-outlined text-[22px]">local_hospital</span>
+        <span class="font-caption text-caption tracking-tight">Find Care</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-on-surface-variant hover:text-primary transition-colors gap-1" data-path="schemes-and-oop" href="../government_schemes_eligibility/code.html">
+        <span class="material-symbols-outlined text-[22px]">health_and_safety</span>
+        <span class="font-caption text-caption tracking-tight">Schemes</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-on-surface-variant hover:text-primary transition-colors gap-1" data-path="saved-and-family" href="../saved_and_family/code.html">
+        <span class="material-symbols-outlined text-[22px]">bookmarks</span>
+        <span class="font-caption text-caption tracking-tight">Saved</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    let currentTreatmentId = 'cataract-surgery';
+    let currentFacilityTier = 'privateTier2';
+    let currentAge = 65;
+    let hasGovtScheme = true;
+    let hasInsurance = true;
+    let currentWard = 'twin';
+
+    // Initialize Page & Populate Selectors
+    window.addEventListener('DOMContentLoaded', () => {
+      const treatmentSelect = document.getElementById('treatment-select');
+      const treatments = window.CareCostData.getTreatments();
+
+      treatments.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = `${t.name} (${t.category})`;
+        if (t.id === currentTreatmentId) opt.selected = true;
+        treatmentSelect.appendChild(opt);
+      });
+
+      // Check URL parameters if passed from other pages
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('treatment')) {
+        const tParam = urlParams.get('treatment');
+        if (treatments.some(t => t.id === tParam)) {
+          currentTreatmentId = tParam;
+          treatmentSelect.value = tParam;
+        }
+      }
+
+      recalculate();
+    });
+
+    function handleTreatmentChange() {
+      const select = document.getElementById('treatment-select');
+      currentTreatmentId = select.value;
+      recalculate();
+    }
+
+    function selectAge(btn) {
+      const buttons = document.querySelectorAll('#age-selector button');
+      buttons.forEach(b => {
+        b.className = 'h-10 px-2 rounded-lg bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container transition-all';
+      });
+      btn.className = 'h-10 px-2 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm shadow-sm transition-all font-semibold active-age';
+      currentAge = parseInt(btn.getAttribute('data-age')) || 45;
+      
+      const badge = document.getElementById('senior-badge');
+      if (currentAge >= 60) {
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+      recalculate();
+    }
+
+    function selectFacilityTier(btn) {
+      const buttons = document.querySelectorAll('#facility-tier-selector button');
+      buttons.forEach(b => {
+        b.className = 'p-2 rounded-lg bg-surface-container-low text-left border border-transparent hover:bg-surface-container transition-all flex flex-col justify-center';
+        const span = b.querySelector('.font-label-sm');
+        if (span) span.className = 'font-label-sm text-label-sm text-on-surface font-medium';
+      });
+      btn.className = 'p-2 rounded-lg bg-surface-container border border-primary text-left transition-all flex flex-col justify-center active-tier';
+      const span = btn.querySelector('.font-label-sm');
+      if (span) span.className = 'font-label-sm text-label-sm text-primary font-bold';
+
+      currentFacilityTier = btn.getAttribute('data-tier') || 'privateTier2';
+      recalculate();
+    }
+
+    function toggleSchemeBox() {
+      hasGovtScheme = !hasGovtScheme;
+      const box = document.getElementById('toggle-pmjay-box');
+      const icon = document.getElementById('pmjay-check-icon');
+      if (hasGovtScheme) {
+        box.className = 'p-2.5 rounded-lg bg-surface-container border border-tertiary flex items-center justify-between cursor-pointer transition-all';
+        icon.textContent = 'check_box';
+        icon.className = 'material-symbols-outlined text-tertiary text-[22px]';
+      } else {
+        box.className = 'p-2.5 rounded-lg bg-surface-container-low border border-transparent flex items-center justify-between cursor-pointer hover:bg-surface-container transition-all';
+        icon.textContent = 'check_box_outline_blank';
+        icon.className = 'material-symbols-outlined text-outline text-[22px]';
+      }
+      recalculate();
+    }
+
+    function toggleInsuranceBox() {
+      hasInsurance = !hasInsurance;
+      const box = document.getElementById('toggle-insurance-box');
+      const icon = document.getElementById('insurance-check-icon');
+      if (hasInsurance) {
+        box.className = 'p-2.5 rounded-lg bg-surface-container border border-primary flex items-center justify-between cursor-pointer transition-all';
+        icon.textContent = 'check_box';
+        icon.className = 'material-symbols-outlined text-primary text-[22px]';
+      } else {
+        box.className = 'p-2.5 rounded-lg bg-surface-container-low border border-transparent flex items-center justify-between cursor-pointer hover:bg-surface-container transition-all';
+        icon.textContent = 'check_box_outline_blank';
+        icon.className = 'material-symbols-outlined text-outline text-[22px]';
+      }
+      recalculate();
+    }
+
+    function recalculate() {
+      const wardSelect = document.getElementById('ward-select');
+      currentWard = wardSelect ? wardSelect.value : 'twin';
+
+      const estimate = window.CareCostData.calculateEstimate({
+        treatmentId: currentTreatmentId,
+        facilityTier: currentFacilityTier,
+        patientAge: currentAge,
+        hasInsurance: hasInsurance,
+        hasGovtScheme: hasGovtScheme,
+        schemeId: 'pmjay',
+        roomType: currentWard
+      });
+
+      // Update treatment description
+      document.getElementById('treatment-description').textContent = estimate.treatment.description;
+
+      // Update Cost Ranges
+      document.getElementById('output-cost-range').textContent = estimate.costRange.formatted;
+      document.getElementById('output-typical-cost').innerHTML = `Typical Hospital Benchmark: <strong class="text-primary font-bold">₹${estimate.costRange.typical.toLocaleString('en-IN')}</strong> (${estimate.treatment.typicalStay})`;
+      document.getElementById('output-oop-range').textContent = estimate.support.oopFormatted;
+
+      const savings = Math.max(0, estimate.costRange.typical - estimate.support.outOfPocketTypical);
+      document.getElementById('oop-savings-pill').innerHTML = `<span class="material-symbols-outlined text-[12px]">trending_down</span> Saves ~₹${savings.toLocaleString('en-IN')}`;
+
+      // Update Category Breakdown Bars & Labels
+      const bp = estimate.treatment.breakdownPercents;
+      document.getElementById('bar-procedure').style.width = (bp.procedure * 100) + '%';
+      document.getElementById('bar-facility').style.width = (bp.facilityCharges * 100) + '%';
+      document.getElementById('bar-diagnostics').style.width = (bp.diagnostics * 100) + '%';
+      document.getElementById('bar-medication').style.width = (bp.medication * 100) + '%';
+      document.getElementById('bar-consultation').style.width = (bp.consultation * 100) + '%';
+      document.getElementById('bar-followup').style.width = (bp.followUp * 100) + '%';
+
+      document.getElementById('breakdown-total-label').textContent = `₹${estimate.costRange.typical.toLocaleString('en-IN')}`;
+
+      // Detailed Cards
+      const bContainer = document.getElementById('breakdown-cards-container');
+      bContainer.innerHTML = '';
+      const categories = [
+        { name: "Procedure / Surgery", val: estimate.breakdown.procedure, icon: "surgical", pct: Math.round(bp.procedure * 100) },
+        { name: "Facility Charges", val: estimate.breakdown.facilityCharges, icon: "apartment", pct: Math.round(bp.facilityCharges * 100) },
+        { name: "Diagnostics & Labs", val: estimate.breakdown.diagnostics, icon: "biotechnology", pct: Math.round(bp.diagnostics * 100) },
+        { name: "Medications", val: estimate.breakdown.medication, icon: "medication", pct: Math.round(bp.medication * 100) },
+        { name: "Consultations", val: estimate.breakdown.consultation, icon: "person", pct: Math.round(bp.consultation * 100) },
+        { name: "Post-op Follow-up", val: estimate.breakdown.followUp, icon: "verified", pct: Math.round(bp.followUp * 100) }
+      ];
+
+      categories.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'p-2.5 rounded-lg bg-surface-container-low border border-surface-container flex flex-col justify-between';
+        card.innerHTML = `
+          <div class="flex items-center justify-between text-on-surface-variant mb-1">
+            <span class="font-caption text-caption flex items-center gap-1 truncate">
+              <span class="material-symbols-outlined text-[14px] text-primary">${c.icon}</span>
+              ${c.name}
+            </span>
+            <span class="font-caption text-caption font-semibold text-outline">${c.pct}%</span>
+          </div>
+          <span class="font-label-md text-label-md font-bold text-on-surface">₹${c.val.toLocaleString('en-IN')}</span>
+        `;
+        bContainer.appendChild(card);
+      });
+
+      // Update Coverage Absorption
+      const totalCovered = estimate.support.schemeSupport + estimate.support.insuranceCoverage;
+      const coveragePct = Math.min(100, Math.round((totalCovered / estimate.costRange.typical) * 100));
+      document.getElementById('coverage-percentage-label').textContent = `${coveragePct}% Covered`;
+      document.getElementById('sum-govt-support').textContent = `₹${estimate.support.schemeSupport.toLocaleString('en-IN')}`;
+      document.getElementById('sum-insurance-support').textContent = `₹${estimate.support.insuranceCoverage.toLocaleString('en-IN')}`;
+      document.getElementById('sum-patient-oop').textContent = `₹${estimate.support.outOfPocketTypical.toLocaleString('en-IN')}`;
+
+      // Update AI Insights
+      const aiContainer = document.getElementById('ai-insights-container');
+      aiContainer.innerHTML = '';
+      estimate.aiInsights.forEach(ins => {
+        const item = document.createElement('div');
+        item.className = 'p-2.5 rounded-lg bg-surface-container-lowest flex items-start gap-2 shadow-xs';
+        item.innerHTML = `
+          <div class="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-[15px]">${ins.icon}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-label-sm text-label-sm text-on-surface font-bold">${ins.title}</span>
+            <p class="font-caption text-caption text-on-surface-variant leading-snug mt-0.5">${ins.text}</p>
+          </div>
+        `;
+        aiContainer.appendChild(item);
+      });
+
+      // Render Care Path Steps
+      const pathContainer = document.getElementById('care-path-container');
+      pathContainer.innerHTML = '';
+      estimate.carePath.forEach(step => {
+        const sDiv = document.createElement('div');
+        sDiv.className = 'flex items-start gap-3 relative z-10';
+        sDiv.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-sm shrink-0 shadow-sm">
+            ${step.step}
+          </div>
+          <div class="flex-1 p-2.5 rounded-lg bg-surface-container-low border border-surface-container flex flex-col gap-1">
+            <div class="flex items-center justify-between">
+              <span class="font-label-sm text-label-sm text-on-surface font-bold">${step.title}</span>
+              <span class="font-caption text-caption px-2 py-0.5 rounded-full bg-surface-container text-primary font-semibold">${step.duration}</span>
+            </div>
+            <div class="flex flex-wrap items-center justify-between gap-1 text-caption font-caption text-on-surface-variant mt-0.5">
+              <span class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px] text-outline">domain</span>
+                ${step.facility}
+              </span>
+              <span class="text-tertiary font-medium bg-tertiary-container/10 px-1.5 py-0.2 rounded">
+                ${step.support}
+              </span>
+              <span class="font-semibold text-on-surface ml-auto">
+                ${step.cost > 0 ? '₹' + step.cost.toLocaleString('en-IN') : 'Package Included'}
+              </span>
+            </div>
+          </div>
+        `;
+        pathContainer.appendChild(sDiv);
+      });
+
+      // Update Links to preserve query parameter
+      document.getElementById('btn-find-care-link').href = `../find_care_affordability_map/code.html?treatment=${currentTreatmentId}`;
+      document.getElementById('btn-oop-simulator-link').href = `../out_of_pocket_cost_breakdown/code.html?treatment=${currentTreatmentId}`;
+    }
+
+    function saveCurrentEstimate() {
+      const estimate = window.CareCostData.calculateEstimate({
+        treatmentId: currentTreatmentId,
+        facilityTier: currentFacilityTier,
+        patientAge: currentAge,
+        hasInsurance: hasInsurance,
+        hasGovtScheme: hasGovtScheme,
+        roomType: currentWard
+      });
+
+      const itemToSave = {
+        id: `est-${currentTreatmentId}-${Date.now()}`,
+        title: estimate.treatment.name,
+        category: estimate.treatment.category,
+        costRange: estimate.costRange.formatted,
+        oop: estimate.support.oopFormatted,
+        facilityTier: currentFacilityTier,
+        date: new Date().toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })
+      };
+
+      window.CareCostData.saveItem('estimates', itemToSave);
+      showToast(`Estimate for ${estimate.treatment.shortName} saved!`);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const msgEl = document.getElementById('toast-message');
+      msgEl.textContent = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>

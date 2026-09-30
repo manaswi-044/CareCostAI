@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+  <title>CareCost AI - Find Care & Affordability Map</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary":"#ffffff","on-secondary-container":"#006f66","surface-dim":"#c7dcf4","on-tertiary-fixed-variant":"#005236","tertiary-fixed-dim":"#4edea3","on-surface-variant":"#3f4850","surface-container":"#e3efff","primary-fixed":"#cce5ff","primary":"#006194","on-tertiary-container":"#f5fff6","surface-container-lowest":"#ffffff","outline-variant":"#bfc7d2","on-primary-container":"#fdfcff","inverse-surface":"#1d3245","on-primary-fixed-variant":"#004b73","surface-tint":"#006398","on-primary-fixed":"#001d31","inverse-on-surface":"#e8f2ff","on-secondary-fixed":"#00201d","error":"#ba1a1a","error-container":"#ffdad6","on-secondary":"#ffffff","on-tertiary-fixed":"#002113","surface-variant":"#cfe5fd","surface-container-highest":"#cfe5fd","secondary-fixed":"#89f5e7","surface-bright":"#f7f9ff","tertiary":"#006947","on-secondary-fixed-variant":"#005049","secondary-fixed-dim":"#6bd8cb","secondary-container":"#86f2e4","primary-container":"#007bb9","inverse-primary":"#93ccff","on-error-container":"#93000a","on-surface":"#061d2f","tertiary-container":"#00855b","surface-container-high":"#d8eaff","on-background":"#061d2f","primary-fixed-dim":"#93ccff","surface":"#f7f9ff","tertiary-fixed":"#6ffbbe","outline":"#707881","on-error":"#ffffff","surface-container-low":"#edf4ff","background":"#f7f9ff","secondary":"#006a61","on-tertiary":"#ffffff"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"margin":"1rem","space-md":"1rem","gutter":"1rem","space-xs":"0.25rem","space-xl":"2.25rem","space-sm":"0.5rem","space-lg":"1.5rem"},fontFamily:{"label-sm":["Inter"],"body-md":["Inter"],"caption":["Inter"],"headline-md":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"display-currency":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"display-currency-mobile":["Plus Jakarta Sans"],"body-lg-medium":["Inter"],"body-md-medium":["Inter"],"headline-xl-mobile":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"label-md":["Inter"],"body-lg":["Inter"]},fontSize:{"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"caption":["11px",{"lineHeight":"14px","fontWeight":"500"}],"headline-md":["20px",{"lineHeight":"28px","fontWeight":"600"}],"headline-xl":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"700"}],"display-currency":["40px",{"lineHeight":"48px","letterSpacing":"-0.03em","fontWeight":"800"}],"headline-lg-mobile":["24px",{"lineHeight":"30px","letterSpacing":"-0.01em","fontWeight":"700"}],"display-currency-mobile":["32px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"800"}],"body-lg-medium":["16px",{"lineHeight":"24px","fontWeight":"500"}],"body-md-medium":["14px",{"lineHeight":"20px","fontWeight":"500"}],"headline-xl-mobile":["28px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}]}}}}</script>
+  <style>
+    @layer base{html,body{width:100%;margin:0;padding:0;background-color:#f7f9ff;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}
+    .chip-active { background-color: #006194; color: #fff; }
+    .chip-inactive { background-color: #fff; color: #3f4850; }
+    .modal-bg { transition: opacity 0.2s ease; }
+    .modal-panel { transition: transform 0.25s ease; }
+    .compare-check.selected { color: #006194; }
+  </style>
+  <script src="../data/treatments.js"></script>
+  <script src="../data/facilities.js"></script>
+  <script src="../data/governmentSchemes.js"></script>
+  <script src="../data/insurance.js"></script>
+  <script src="../data/mockData.js"></script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen flex flex-col antialiased">
+
+  <!-- Fixed Header -->
+  <header class="fixed top-0 w-full z-50 pt-safe bg-surface/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="h-16 px-4 flex items-center justify-between gap-2 max-w-5xl mx-auto w-full">
+      <div class="flex items-center gap-2 min-w-0">
+        <a href="../carecost_ai_home_dashboard/code.html" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container-low transition-colors">
+          <span class="material-symbols-outlined text-[22px]">arrow_back</span>
+        </a>
+        <div class="flex flex-col truncate">
+          <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none font-bold truncate">Find Care</span>
+          <span class="font-caption text-caption text-on-surface-variant leading-none mt-0.5 truncate">Hyderabad Facility Search</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="tel:108" class="h-9 px-2.5 rounded-full bg-error-container flex items-center gap-1 hover:bg-error/20 transition-all">
+          <span class="material-symbols-outlined text-error text-[17px]">e911_emergency</span>
+          <span class="font-label-sm text-label-sm text-error font-bold">108</span>
+        </a>
+        <a href="../saved_and_family/code.html" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors">
+          <span class="material-symbols-outlined text-[22px]">bookmarks</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex flex-col w-full pt-16 pb-28 min-h-screen">
+
+    <!-- Search & Filter Bar -->
+    <section class="sticky top-16 z-40 bg-surface shadow-sm px-4 py-3 flex flex-col gap-2 max-w-5xl mx-auto w-full">
+      <!-- Search Input -->
+      <div class="flex items-center gap-2 bg-surface-container-lowest rounded-lg px-3 py-2 shadow-sm border border-outline-variant/30">
+        <span class="material-symbols-outlined text-primary text-[20px] shrink-0">search</span>
+        <input id="search-input" type="text" placeholder="Search hospital, specialty, procedure..." value=""
+          class="flex-1 bg-transparent text-on-surface font-body-md-medium text-body-md-medium outline-none min-w-0"
+          oninput="handleSearchInput(this.value)"/>
+        <button id="clear-search" onclick="clearSearch()" class="hidden text-on-surface-variant">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <!-- Filter Chips Row -->
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-0.5 -mx-4 px-4 no-scrollbar">
+        <button id="chip-all" onclick="setChip('all')" class="shrink-0 h-8 px-3 rounded-full chip-active font-label-sm text-label-sm font-semibold shadow-sm transition-all">
+          All Types
+        </button>
+        <button id="chip-govt" onclick="setChip('govt')" class="shrink-0 h-8 px-3 rounded-full chip-inactive font-label-sm text-label-sm shadow-sm transition-all border border-outline-variant/30">
+          🏛 Govt / Free
+        </button>
+        <button id="chip-trust" onclick="setChip('trust')" class="shrink-0 h-8 px-3 rounded-full chip-inactive font-label-sm text-label-sm shadow-sm transition-all border border-outline-variant/30">
+          🤝 Trust
+        </button>
+        <button id="chip-pmjay" onclick="setChip('pmjay')" class="shrink-0 h-8 px-3 rounded-full chip-inactive font-label-sm text-label-sm shadow-sm transition-all border border-outline-variant/30">
+          ✅ PM-JAY
+        </button>
+        <button id="chip-cashless" onclick="setChip('cashless')" class="shrink-0 h-8 px-3 rounded-full chip-inactive font-label-sm text-label-sm shadow-sm transition-all border border-outline-variant/30">
+          💳 Cashless
+        </button>
+        <button id="chip-private" onclick="setChip('private')" class="shrink-0 h-8 px-3 rounded-full chip-inactive font-label-sm text-label-sm shadow-sm transition-all border border-outline-variant/30">
+          🏥 Private NABH
+        </button>
+      </div>
+
+      <!-- Active Treatment Context Pill -->
+      <div class="flex items-center justify-between text-caption font-caption text-on-surface-variant">
+        <span class="flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px] text-primary">visibility</span>
+          Showing results for: <strong id="active-treatment-label" class="text-on-surface ml-0.5">All Treatments</strong>
+        </span>
+        <span id="result-count-label" class="font-semibold text-primary">8 facilities</span>
+      </div>
+    </section>
+
+    <!-- Affordability Mock Map Banner -->
+    <section class="px-4 pt-3 max-w-5xl mx-auto w-full">
+      <div class="relative w-full h-48 rounded-xl overflow-hidden shadow-sm bg-surface-container mb-3">
+        <div class="w-full h-full bg-cover bg-center"
+          style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBKQT1vBF4I2KAmL2MrYFCymAJy6VkQH6UTJVpdVFRxPA3ggRFipUkbmJCGOoXPS9j6jg_N97kLqYhU2aBvsc5uIsGVNJ2TcWNMvQd1IqG4kkEFYxcpAGkAQdIS4iq8bPFnI51wdP4XHJllz3pPvp0Bc7qe_czyTJj4DcB4Sufr8w2hbePft8S9PDyBX5sAIsfpjE3jzFyqMWgLnjKNVrS21UyvEWLEJxXLnQqJHN6mXzFinEF6NB3K');
+          filter: saturate(0.6) brightness(0.85);">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/70 via-transparent to-transparent"></div>
+        <!-- OOP Color Legend -->
+        <div class="absolute top-2 left-2 right-2 bg-surface/90 backdrop-blur-md rounded-lg px-3 py-1.5 flex items-center justify-between shadow-sm">
+          <span class="font-caption text-caption text-on-surface font-bold">OOP Cost Map</span>
+          <div class="flex items-center gap-2">
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-tertiary inline-block"></span><span class="font-caption text-caption">₹0-5k</span></span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary inline-block"></span><span class="font-caption text-caption">₹5-15k</span></span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary inline-block"></span><span class="font-caption text-caption">₹15k+</span></span>
+          </div>
+        </div>
+        <!-- Map Pins (static prototype visual) -->
+        <div class="absolute top-16 left-10 flex flex-col items-center animate-bounce">
+          <span class="px-2 py-0.5 rounded-full bg-tertiary text-on-tertiary text-[10px] font-bold shadow-md">₹0–2.5k</span>
+          <span class="material-symbols-outlined text-tertiary text-[26px] drop-shadow" style="font-variation-settings:'FILL' 1">location_on</span>
+        </div>
+        <div class="absolute top-12 right-20 flex flex-col items-center">
+          <span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary text-[10px] font-bold shadow-md">₹18-28k</span>
+          <span class="material-symbols-outlined text-primary-container text-[26px] drop-shadow" style="font-variation-settings:'FILL' 1">location_on</span>
+        </div>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center">
+          <span class="px-2 py-0.5 rounded-full bg-secondary text-on-secondary text-[10px] font-bold shadow-md">₹6-12k</span>
+          <span class="material-symbols-outlined text-secondary text-[26px] drop-shadow" style="font-variation-settings:'FILL' 1">location_on</span>
+        </div>
+        <div class="absolute bottom-3 left-3 text-on-primary font-caption text-caption font-semibold flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">travel_explore</span>
+          Hyderabad Region • Mock affordability visualization
+        </div>
+      </div>
+    </section>
+
+    <!-- Facility List View -->
+    <section class="px-4 pb-4 flex flex-col gap-3 max-w-5xl mx-auto w-full">
+      <div class="flex items-center justify-between">
+        <h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Matched Facilities</h2>
+        <div class="flex items-center gap-2">
+          <span id="compare-bar-trigger" class="hidden px-3 py-1 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-bold cursor-pointer shadow-sm" onclick="openCompareModal()">
+            Compare (<span id="compare-count">0</span>)
+          </span>
+        </div>
+      </div>
+
+      <!-- Facility Cards Container -->
+      <div id="facilities-container" class="flex flex-col gap-3">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <p id="no-results" class="hidden text-center py-10 text-on-surface-variant font-body-md">No facilities matched your search. Try a different filter or keyword.</p>
+    </section>
+  </main>
+
+  <!-- ========== FACILITY DETAIL MODAL (Feature 4) ========== -->
+  <div id="facility-detail-modal" class="fixed inset-0 z-50 flex items-end modal-bg opacity-0 pointer-events-none" style="background:rgba(6,29,47,0.5)">
+    <div class="modal-panel w-full max-w-2xl mx-auto bg-surface rounded-t-2xl shadow-2xl translate-y-full max-h-[90vh] flex flex-col overflow-hidden">
+      <!-- Modal Handle -->
+      <div class="flex justify-center pt-3 pb-1 shrink-0">
+        <div class="w-10 h-1 rounded-full bg-outline-variant"></div>
+      </div>
+      <!-- Modal Header -->
+      <div class="px-4 pb-3 flex items-center justify-between border-b border-surface-container shrink-0">
+        <div class="flex flex-col min-w-0">
+          <h3 id="modal-name" class="font-headline-sm text-headline-sm text-on-surface font-bold truncate">Facility Name</h3>
+          <span id="modal-type-badge" class="font-caption text-caption text-primary font-semibold">Type</span>
+        </div>
+        <button onclick="closeDetailModal()" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+      <!-- Modal Scroll Content -->
+      <div id="modal-body" class="px-4 py-4 overflow-y-auto flex flex-col gap-4">
+        <!-- Dynamically populated -->
+      </div>
+      <!-- Modal CTA Buttons -->
+      <div class="px-4 pb-4 pt-2 flex gap-2 border-t border-surface-container shrink-0 pb-safe">
+        <button id="modal-save-btn" onclick="saveFacilityFromModal()" class="flex-1 h-11 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 transition-all">
+          <span class="material-symbols-outlined text-[18px]">bookmark_add</span> Save
+        </button>
+        <a id="modal-estimate-link" href="#" class="flex-1 h-11 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm active:scale-95">
+          <span class="material-symbols-outlined text-[18px]">calculate</span> Estimate My Cost
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== COMPARISON MODAL (Feature 7) ========== -->
+  <div id="compare-modal" class="fixed inset-0 z-50 modal-bg opacity-0 pointer-events-none" style="background:rgba(6,29,47,0.6)">
+    <div class="modal-panel absolute inset-x-0 bottom-0 max-h-[95vh] bg-surface rounded-t-2xl shadow-2xl flex flex-col overflow-hidden translate-y-full">
+      <div class="flex justify-center pt-3 pb-1 shrink-0">
+        <div class="w-10 h-1 rounded-full bg-outline-variant"></div>
+      </div>
+      <div class="px-4 pb-3 flex items-center justify-between shrink-0 border-b border-surface-container">
+        <div>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Side-by-Side Comparison</h3>
+          <p class="font-caption text-caption text-on-surface-variant">Neutral data — make your own informed choice</p>
+        </div>
+        <button onclick="closeCompareModal()" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+      <div id="compare-modal-body" class="overflow-y-auto flex-1 p-4">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full bg-inverse-surface text-inverse-on-surface font-label-sm text-label-sm shadow-xl flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300">
+    <span class="material-symbols-outlined text-[18px] text-tertiary-fixed">check_circle</span>
+    <span id="toast-message">Saved!</span>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="fixed bottom-0 w-full z-40 pb-safe bg-surface/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)] border-t border-surface-container">
+    <div class="h-20 px-1 grid grid-cols-5 items-center justify-items-center max-w-5xl mx-auto">
+      <a class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-on-surface-variant hover:text-primary transition-colors gap-1" href="../carecost_ai_home_dashboard/code.html">
+        <span class="material-symbols-outlined text-[22px]">grid_view</span>
+        <span class="font-caption text-caption">Home</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-on-surface-variant hover:text-primary transition-colors gap-1" href="../cost_estimator_benchmark/code.html">
+        <span class="material-symbols-outlined text-[22px]">calculate</span>
+        <span class="font-caption text-caption">Estimator</span>
+      </a>
+      <a aria-current="page" class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-primary font-body-md-medium gap-1" href="../find_care_affordability_map/code.html">
+        <span class="material-symbols-outlined text-[22px]">local_hospital</span>
+        <span class="font-caption text-caption">Find Care</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-on-surface-variant hover:text-primary transition-colors gap-1" href="../government_schemes_eligibility/code.html">
+        <span class="material-symbols-outlined text-[22px]">health_and_safety</span>
+        <span class="font-caption text-caption">Schemes</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 min-w-[48px] text-on-surface-variant hover:text-primary transition-colors gap-1" href="../saved_and_family/code.html">
+        <span class="material-symbols-outlined text-[22px]">bookmarks</span>
+        <span class="font-caption text-caption">Saved</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    let currentFilter = 'all';
+    let currentSearch = '';
+    let activeTreatment = null;
+    let compareSet = new Set(); // max 3
+    let currentModalFacility = null;
+
+    // Tier → display label
+    const TIER_LABELS = { govt: 'Government', trust: 'Trust / Non-Profit', privateTier2: 'NABH Private', privateTier1: 'Super-Specialty' };
+    const TIER_COLORS = { govt: 'text-tertiary', trust: 'text-secondary', privateTier2: 'text-primary', privateTier1: 'text-on-surface' };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Read treatment from URL
+      const params = new URLSearchParams(window.location.search);
+      const tId = params.get('treatment');
+      if (tId) {
+        activeTreatment = tId;
+        const t = window.CareCostData.getTreatmentById(tId);
+        if (t) document.getElementById('active-treatment-label').textContent = t.shortName;
+      }
+      renderFacilities();
+    });
+
+    function handleSearchInput(val) {
+      currentSearch = val;
+      document.getElementById('clear-search').classList.toggle('hidden', !val);
+      renderFacilities();
+    }
+
+    function clearSearch() {
+      currentSearch = '';
+      document.getElementById('search-input').value = '';
+      document.getElementById('clear-search').classList.add('hidden');
+      renderFacilities();
+    }
+
+    function setChip(filter) {
+      currentFilter = filter;
+      const chips = ['all','govt','trust','pmjay','cashless','private'];
+      chips.forEach(c => {
+        const el = document.getElementById('chip-' + c);
+        if (!el) return;
+        if (c === filter) {
+          el.classList.add('chip-active'); el.classList.remove('chip-inactive', 'border', 'border-outline-variant/30');
+        } else {
+          el.classList.remove('chip-active'); el.classList.add('chip-inactive', 'border', 'border-outline-variant/30');
+        }
+      });
+      renderFacilities();
+    }
+
+    function renderFacilities() {
+      const criteria = {
+        treatmentId: activeTreatment || null,
+        facilityType: currentFilter,
+        pmjayOnly: currentFilter === 'pmjay',
+        cashlessOnly: currentFilter === 'cashless',
+        searchQuery: currentSearch
+      };
+      const results = window.CareCostData.filterFacilities(criteria);
+      document.getElementById('result-count-label').textContent = results.length + ' facilit' + (results.length === 1 ? 'y' : 'ies');
+      document.getElementById('no-results').classList.toggle('hidden', results.length > 0);
+      
+      const container = document.getElementById('facilities-container');
+      container.innerHTML = '';
+      results.forEach((f, idx) => renderFacilityCard(f, idx === 0, container));
+    }
+
+    function renderFacilityCard(facility, isTopMatch, container) {
+      const costData = activeTreatment ? facility.procedureCosts[activeTreatment] : null;
+      const selected = compareSet.has(facility.id);
+
+      const card = document.createElement('div');
+      card.className = 'bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden border border-surface-container hover:shadow-md transition-all';
+      
+      const topBarColor = facility.pricingTier === 'govt' ? 'bg-tertiary' : facility.pricingTier === 'trust' ? 'bg-secondary' : 'bg-primary';
+      const topBarText = isTopMatch ? 'Lowest OOP Match' : '';
+      
+      const schemeBadges = facility.govtSchemes.slice(0, 3).map(s => 
+        `<span class="px-1.5 py-0.5 rounded bg-secondary-container/60 text-secondary font-caption text-caption font-semibold">${s}</span>`
+      ).join('');
+
+      card.innerHTML = `
+        <div class="h-1 w-full ${topBarColor}"></div>
+        <div class="p-4 flex flex-col gap-3">
+          <!-- Header Row -->
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-1.5 flex-wrap mb-1">
+                <span class="px-2 py-0.5 rounded-full text-caption font-caption font-bold ${topBarColor} text-white">${facility.typeBadge}</span>
+                ${isTopMatch ? '<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed text-caption font-caption font-bold">⭐ Top Match</span>' : ''}
+              </div>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-snug">${facility.name}</h3>
+              <div class="flex items-center gap-1 mt-0.5">
+                <span class="material-symbols-outlined text-[13px] text-outline">location_on</span>
+                <span class="font-caption text-caption text-on-surface-variant">${facility.area} • ${facility.distanceKm} km</span>
+              </div>
+            </div>
+            <div class="flex flex-col items-end gap-1.5 shrink-0">
+              <div class="flex items-center gap-0.5 bg-surface-container-low rounded-full px-2 py-0.5">
+                <span class="material-symbols-outlined text-[12px] text-yellow-600">star</span>
+                <span class="font-label-sm text-label-sm font-bold text-on-surface">${facility.rating}</span>
+              </div>
+              <label class="flex items-center gap-1 cursor-pointer select-none">
+                <span class="font-caption text-caption text-on-surface-variant">Compare</span>
+                <span id="cmp-${facility.id}" onclick="toggleCompare('${facility.id}', event)" class="material-symbols-outlined text-[22px] ${selected ? 'text-primary' : 'text-outline'} hover:text-primary transition-colors cursor-pointer">${selected ? 'check_box' : 'check_box_outline_blank'}</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Cost Row -->
+          ${costData ? `
+          <div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low border border-surface-container">
+            <div class="flex flex-col">
+              <span class="font-caption text-caption text-on-surface-variant">Estimated Procedure Cost</span>
+              <span class="font-headline-sm text-headline-sm text-on-surface font-bold">₹${costData.min.toLocaleString('en-IN')} – ₹${costData.max.toLocaleString('en-IN')}</span>
+            </div>
+            <div class="flex flex-col items-end">
+              <span class="font-caption text-caption text-on-surface-variant">Your OOP est.</span>
+              <span class="font-label-md text-label-md text-primary font-bold">₹${costData.oopEstimated.toLocaleString('en-IN')}</span>
+            </div>
+          </div>
+          ` : `
+          <div class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-low text-on-surface-variant">
+            <span class="material-symbols-outlined text-[16px]">info</span>
+            <span class="font-caption text-caption">Select a treatment to see procedure-specific pricing.</span>
+          </div>
+          `}
+
+          <!-- Support Scheme Tags -->
+          <div class="flex flex-wrap items-center gap-1">
+            ${schemeBadges}
+            ${facility.cashlessInsurance ? '<span class="px-1.5 py-0.5 rounded bg-primary-fixed text-primary font-caption text-caption font-semibold">💳 Cashless</span>' : ''}
+          </div>
+
+          <!-- Specialties Line -->
+          <div class="flex items-center gap-1.5 flex-wrap">
+            ${facility.specialties.map(s => `<span class="font-caption text-caption text-on-surface-variant flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px] text-outline">circle</span>${s}</span>`).join('')}
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex gap-2 pt-1 border-t border-surface-container">
+            <button onclick="openDetailModal('${facility.id}')" class="flex-1 h-10 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold flex items-center justify-center gap-1 transition-all">
+              <span class="material-symbols-outlined text-[16px]">open_in_new</span> View Details
+            </button>
+            <button onclick="saveFacility('${facility.id}')" class="h-10 px-3 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm flex items-center justify-center gap-1 transition-all">
+              <span class="material-symbols-outlined text-[18px]">bookmark_add</span>
+            </button>
+            <a href="../cost_estimator_benchmark/code.html${activeTreatment ? '?treatment=' + activeTreatment : ''}" class="h-10 px-3 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-bold flex items-center justify-center gap-1 transition-all shadow-sm active:scale-95">
+              <span class="material-symbols-outlined text-[16px]">calculate</span> Estimate
+            </a>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    }
+
+    function toggleCompare(facilityId, event) {
+      if (event) event.stopPropagation();
+      if (compareSet.has(facilityId)) {
+        compareSet.delete(facilityId);
+      } else {
+        if (compareSet.size >= 3) { showToast('Max 3 facilities can be compared'); return; }
+        compareSet.add(facilityId);
+      }
+      updateCompareBar();
+      renderFacilities();
+    }
+
+    function updateCompareBar() {
+      const trigger = document.getElementById('compare-bar-trigger');
+      document.getElementById('compare-count').textContent = compareSet.size;
+      if (compareSet.size >= 2) {
+        trigger.classList.remove('hidden');
+      } else {
+        trigger.classList.add('hidden');
+      }
+    }
+
+    function openDetailModal(facilityId) {
+      const facility = window.CareCostData.getFacilityById(facilityId);
+      currentModalFacility = facility;
+      if (!facility) return;
+
+      document.getElementById('modal-name').textContent = facility.name;
+      document.getElementById('modal-type-badge').textContent = `${facility.typeBadge} • ⭐ ${facility.rating} (${facility.reviewsCount.toLocaleString('en-IN')} reviews)`;
+      
+      const costData = activeTreatment ? facility.procedureCosts[activeTreatment] : null;
+      const schemeBadges = facility.govtSchemes.map(s => 
+        `<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary-container/60 text-secondary font-label-sm text-label-sm font-semibold">${s}</span>`
+      ).join('');
+
+      document.getElementById('modal-body').innerHTML = `
+        <!-- Location & Contact -->
+        <div class="flex flex-col gap-1.5 p-3 rounded-xl bg-surface-container-low">
+          <div class="flex items-start gap-2">
+            <span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
+            <div>
+              <div class="font-body-md-medium text-on-surface">${facility.area}, ${facility.city}</div>
+              <div class="font-caption text-caption text-on-surface-variant">${facility.distanceKm} km from search area • PIN: ${facility.pincode}</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-outline text-[18px]">call</span>
+            <a href="tel:${facility.phone}" class="font-body-md text-primary">${facility.phone}</a>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-outline text-[18px]">schedule</span>
+            <span class="font-caption text-caption text-on-surface-variant">${facility.timing}</span>
+          </div>
+          ${facility.emergency ? '<div class="flex items-center gap-1 text-error font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[16px]">e911_emergency</span> 24x7 Emergency Available</div>' : ''}
+        </div>
+
+        <!-- Description -->
+        <p class="font-body-md text-body-md text-on-surface-variant">${facility.description}</p>
+
+        <!-- Accreditations -->
+        <div class="flex flex-wrap gap-1.5">
+          ${facility.accreditation.map(a => `<span class="px-2 py-0.5 rounded bg-primary-fixed text-primary font-caption text-caption font-bold">${a}</span>`).join('')}
+        </div>
+
+        <!-- Procedure Cost if selected -->
+        ${costData ? `
+        <div class="p-3 rounded-xl bg-surface-container-lowest border border-primary/20 flex flex-col gap-2">
+          <div class="font-label-sm text-label-sm text-primary font-bold uppercase tracking-wider flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">price_change</span> Procedure Cost Estimate
+          </div>
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col">
+              <span class="font-caption text-caption text-on-surface-variant">Estimated Range</span>
+              <span class="font-headline-sm text-headline-sm text-on-surface font-bold">₹${costData.min.toLocaleString('en-IN')} – ₹${costData.max.toLocaleString('en-IN')}</span>
+            </div>
+            <div class="flex flex-col items-end">
+              <span class="font-caption text-caption text-on-surface-variant">Your OOP</span>
+              <span class="font-headline-sm text-headline-sm text-primary font-bold">₹${costData.oopEstimated.toLocaleString('en-IN')}</span>
+            </div>
+          </div>
+          <div class="font-caption text-caption text-on-surface-variant italic">${costData.packageNote}</div>
+        </div>
+        ` : ''}
+
+        <!-- Government Schemes -->
+        <div>
+          <div class="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-wider mb-2">Govt Schemes & TPA Coverage</div>
+          <div class="flex flex-wrap gap-1.5 mb-2">${schemeBadges}</div>
+          <div class="font-caption text-caption text-on-surface-variant">TPAs: ${facility.tpas.join(', ')}</div>
+        </div>
+
+        <!-- Key Features -->
+        <div>
+          <div class="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-wider mb-2">Key Facilities & Services</div>
+          <div class="flex flex-col gap-1.5">
+            ${facility.features.map(ft => `<div class="flex items-center gap-2"><span class="material-symbols-outlined text-tertiary text-[16px]">check_circle</span><span class="font-body-md text-body-md text-on-surface">${ft}</span></div>`).join('')}
+          </div>
+        </div>
+
+        <p class="font-caption text-caption text-outline italic">*Cost estimates are indicative benchmarks. Prototype — not medical or financial advice.</p>
+      `;
+
+      document.getElementById('modal-estimate-link').href = `../cost_estimator_benchmark/code.html${activeTreatment ? '?treatment=' + activeTreatment : ''}`;
+
+      const modal = document.getElementById('facility-detail-modal');
+      const panel = modal.querySelector('.modal-panel');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100');
+      setTimeout(() => panel.classList.replace('translate-y-full', 'translate-y-0'), 10);
+    }
+
+    function closeDetailModal() {
+      const modal = document.getElementById('facility-detail-modal');
+      const panel = modal.querySelector('.modal-panel');
+      panel.classList.replace('translate-y-0', 'translate-y-full');
+      setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); modal.classList.remove('opacity-100'); }, 250);
+    }
+
+    function saveFacilityFromModal() {
+      if (!currentModalFacility) return;
+      saveFacility(currentModalFacility.id);
+    }
+
+    function saveFacility(facilityId) {
+      const f = window.CareCostData.getFacilityById(facilityId);
+      if (!f) return;
+      window.CareCostData.saveItem('facilities', { id: f.id, name: f.name, type: f.type, area: f.area, distanceKm: f.distanceKm, govtSchemes: f.govtSchemes, cashlessInsurance: f.cashlessInsurance, rating: f.rating });
+      showToast(`${f.shortName} saved to bookmarks!`);
+    }
+
+    function openCompareModal() {
+      const ids = Array.from(compareSet);
+      const facilityIds = ids.map(id => id);
+      const compData = window.CareCostData.compareFacilities(facilityIds, activeTreatment || 'cataract-surgery');
+
+      const metrics = [
+        { label: 'Facility Type', key: 'type' },
+        { label: 'Distance', key: 'distanceKm', suffix: ' km' },
+        { label: 'Rating', key: 'rating', suffix: ' ★' },
+        { label: 'Est. Procedure Cost', key: 'costRange' },
+        { label: 'Est. Out-of-Pocket', fn: d => '₹' + d.oopEstimated.toLocaleString('en-IN') },
+        { label: 'PM-JAY / Aarogyasri', fn: d => d.govtSchemes.includes('PM-JAY') || d.govtSchemes.includes('Aarogyasri') ? '✅ Yes' : '—' },
+        { label: 'Cashless Insurance', fn: d => d.cashlessInsurance ? '✅ Yes' : '—' }
+      ];
+
+      const body = document.getElementById('compare-modal-body');
+      body.innerHTML = `
+        <div class="mb-3">
+          <p class="font-caption text-caption text-on-surface-variant">Information presented neutrally. No facility is ranked as "best".</p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse min-w-[480px]">
+            <thead>
+              <tr>
+                <th class="text-left py-2 pr-3 font-label-sm text-label-sm text-on-surface-variant font-semibold w-32">Metric</th>
+                ${compData.map(f => `<th class="text-center py-2 px-2 font-label-sm text-label-sm text-on-surface font-bold">${f.shortName}</th>`).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              ${metrics.map((m, mi) => `
+                <tr class="${mi % 2 === 0 ? 'bg-surface-container-low' : 'bg-transparent'}">
+                  <td class="py-2.5 pr-3 font-caption text-caption text-on-surface-variant align-top">${m.label}</td>
+                  ${compData.map(d => `<td class="py-2.5 px-2 text-center font-label-sm text-label-sm text-on-surface font-medium">${m.fn ? m.fn(d) : (d[m.key] || '—') + (m.suffix || '')}</td>`).join('')}
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-4 p-3 rounded-xl bg-surface-container-low">
+          <p class="font-caption text-caption text-on-surface-variant italic">Estimated cost ranges are based on sample clinical data benchmarks. Prototype for demonstration only. Please confirm tariffs directly with hospitals before making healthcare decisions.</p>
+        </div>
+      `;
+
+      const modal = document.getElementById('compare-modal');
+      const panel = modal.querySelector('.modal-panel');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100');
+      setTimeout(() => panel.classList.replace('translate-y-full', 'translate-y-0'), 10);
+    }
+
+    function closeCompareModal() {
+      const modal = document.getElementById('compare-modal');
+      const panel = modal.querySelector('.modal-panel');
+      panel.classList.replace('translate-y-0', 'translate-y-full');
+      setTimeout(() => { modal.classList.add('opacity-0', 'pointer-events-none'); modal.classList.remove('opacity-100'); }, 250);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => { toast.classList.remove('opacity-100'); toast.classList.add('opacity-0', 'pointer-events-none'); }, 2500);
+    }
+
+    // Close modals on background click
+    document.getElementById('facility-detail-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeDetailModal();
+    });
+    document.getElementById('compare-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeCompareModal();
+    });
+  </script>
+</body>
+</html>

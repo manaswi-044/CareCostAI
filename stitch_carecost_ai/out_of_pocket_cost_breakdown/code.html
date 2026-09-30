@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+  <title>CareCost AI - Out-of-Pocket Breakdown & What-If Simulator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary":"#ffffff","on-secondary-container":"#006f66","surface-dim":"#c7dcf4","on-tertiary-fixed-variant":"#005236","tertiary-fixed-dim":"#4edea3","on-surface-variant":"#3f4850","surface-container":"#e3efff","primary-fixed":"#cce5ff","primary":"#006194","on-tertiary-container":"#f5fff6","surface-container-lowest":"#ffffff","outline-variant":"#bfc7d2","on-primary-container":"#fdfcff","inverse-surface":"#1d3245","on-primary-fixed-variant":"#004b73","surface-tint":"#006398","on-primary-fixed":"#001d31","inverse-on-surface":"#e8f2ff","on-secondary-fixed":"#00201d","error":"#ba1a1a","error-container":"#ffdad6","on-secondary":"#ffffff","on-tertiary-fixed":"#002113","surface-variant":"#cfe5fd","surface-container-highest":"#cfe5fd","secondary-fixed":"#89f5e7","surface-bright":"#f7f9ff","tertiary":"#006947","on-secondary-fixed-variant":"#005049","secondary-fixed-dim":"#6bd8cb","secondary-container":"#86f2e4","primary-container":"#007bb9","inverse-primary":"#93ccff","on-error-container":"#93000a","on-surface":"#061d2f","tertiary-container":"#00855b","surface-container-high":"#d8eaff","on-background":"#061d2f","primary-fixed-dim":"#93ccff","surface":"#f7f9ff","tertiary-fixed":"#6ffbbe","outline":"#707881","on-error":"#ffffff","surface-container-low":"#edf4ff","background":"#f7f9ff","secondary":"#006a61","on-tertiary":"#ffffff"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"margin":"1rem","space-md":"1rem","gutter":"1rem","space-xs":"0.25rem","space-xl":"2.25rem","space-sm":"0.5rem","space-lg":"1.5rem"},fontFamily:{"label-sm":["Inter"],"body-md":["Inter"],"caption":["Inter"],"headline-md":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"display-currency":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"display-currency-mobile":["Plus Jakarta Sans"],"body-lg-medium":["Inter"],"body-md-medium":["Inter"],"headline-xl-mobile":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"label-md":["Inter"],"body-lg":["Inter"]}}}}</script>
+  <style>
+    @layer base{html,body{width:100%;margin:0;padding:0;background-color:#f7f9ff;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}
+    ::-webkit-scrollbar{display:none;}
+    .scenario-tab.active { background:#006194; color:#fff; }
+    .scenario-tab:not(.active) { background:#e3efff; color:#3f4850; }
+    input[type=range] { accent-color: #006194; }
+    .donut-ring { stroke-dasharray: 0 251; stroke-dashoffset: 0; transition: stroke-dasharray 0.5s ease; }
+  </style>
+  <script src="../data/treatments.js"></script>
+  <script src="../data/facilities.js"></script>
+  <script src="../data/governmentSchemes.js"></script>
+  <script src="../data/insurance.js"></script>
+  <script src="../data/mockData.js"></script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen flex flex-col antialiased">
+
+  <!-- Header -->
+  <header class="fixed top-0 w-full z-50 pt-safe bg-surface/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="h-16 px-4 flex items-center justify-between gap-2 max-w-5xl mx-auto w-full">
+      <div class="flex items-center gap-2 min-w-0">
+        <a href="../carecost_ai_home_dashboard/code.html" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container-low transition-colors">
+          <span class="material-symbols-outlined text-[22px]">arrow_back</span>
+        </a>
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none font-bold">Cost Breakdown</span>
+          <span class="font-caption text-caption text-on-surface-variant">OOP & What-If Simulator</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="tel:108" class="h-9 px-2.5 rounded-full bg-error-container flex items-center gap-1">
+          <span class="material-symbols-outlined text-error text-[17px]">e911_emergency</span>
+          <span class="font-label-sm text-label-sm text-error font-bold">108</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex flex-col relative w-full pt-20 pb-28 min-h-screen max-w-5xl mx-auto px-4">
+
+    <!-- Treatment Header -->
+    <div class="flex flex-col gap-1.5 mb-space-md">
+      <div class="flex items-center gap-1">
+        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">
+          <span class="material-symbols-outlined text-[14px]">verified</span> AI-Verified Estimate
+        </span>
+        <span class="font-caption text-caption text-on-surface-variant">• Prototype / Sample Data</span>
+      </div>
+      <h1 class="font-headline-lg-mobile text-on-surface tracking-tight font-bold">What Will I Actually Pay?</h1>
+      <p class="font-body-md text-body-md text-on-surface-variant">
+        Personalized Out-of-Pocket (OOP) analysis for <strong id="procedure-title" class="text-on-surface">Cataract Surgery</strong>
+      </p>
+    </div>
+
+    <!-- Treatment & Patient Selector -->
+    <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container mb-4 flex flex-col gap-3">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div class="flex flex-col gap-1">
+          <label class="font-label-sm text-label-sm text-on-surface-variant font-semibold flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px] text-primary">medical_services</span> Treatment
+          </label>
+          <select id="oop-treatment-select" onchange="recalculateOOP()" class="h-10 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md border border-outline-variant/30 focus:border-primary outline-none appearance-none cursor-pointer">
+          </select>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="font-label-sm text-label-sm text-on-surface-variant font-semibold flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px] text-primary">apartment</span> Facility Category
+          </label>
+          <select id="oop-tier-select" onchange="recalculateOOP()" class="h-10 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md border border-outline-variant/30 focus:border-primary outline-none appearance-none cursor-pointer">
+            <option value="govt">Government Hospital (Free / Subsidized)</option>
+            <option value="trust">Trust / Charitable Hospital</option>
+            <option value="privateTier2" selected>NABH Private Hospital (Recommended)</option>
+            <option value="privateTier1">Super-Specialty / JCI Quaternary</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Step-Down Breakdown Flow -->
+    <div class="flex flex-col gap-2 mb-4">
+      <h2 class="font-label-md text-label-md text-on-surface-variant uppercase font-bold tracking-wider">Step-by-Step Financial Flow</h2>
+
+      <!-- Step 1: Total Baseline -->
+      <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+          </div>
+          <div>
+            <div class="font-caption text-caption text-on-surface-variant">Step 1 • Standard Baseline</div>
+            <div class="font-body-lg-medium text-body-lg-medium text-on-surface">Total Procedure Cost</div>
+          </div>
+        </div>
+        <div class="text-right">
+          <div id="step1-amount" class="font-headline-sm text-headline-sm text-on-surface font-bold">₹34,000</div>
+          <div class="font-caption text-caption text-on-surface-variant">Typical at selected tier</div>
+        </div>
+      </div>
+
+      <!-- Minus Arrow -->
+      <div class="flex justify-center -my-0.5 z-10">
+        <div class="w-7 h-7 rounded-full bg-secondary-container text-secondary flex items-center justify-center shadow-sm">
+          <span class="material-symbols-outlined text-[16px]">remove</span>
+        </div>
+      </div>
+
+      <!-- Step 2: Govt Scheme Absorption -->
+      <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-secondary-container text-secondary flex items-center justify-center">
+            <span class="material-symbols-outlined text-[18px]">health_and_safety</span>
+          </div>
+          <div>
+            <div class="font-caption text-caption text-on-surface-variant">Step 2 • Govt Scheme Absorbed</div>
+            <div id="step2-label" class="font-body-lg-medium text-body-lg-medium text-on-surface">PM-JAY Package</div>
+          </div>
+        </div>
+        <div class="text-right">
+          <div id="step2-amount" class="font-headline-sm text-headline-sm text-secondary font-bold">-₹18,000</div>
+          <div class="font-caption text-caption text-on-surface-variant">Cashless at empanelled hospital</div>
+        </div>
+      </div>
+
+      <!-- Minus Arrow -->
+      <div class="flex justify-center -my-0.5 z-10">
+        <div class="w-7 h-7 rounded-full bg-primary-fixed text-primary flex items-center justify-center shadow-sm">
+          <span class="material-symbols-outlined text-[16px]">remove</span>
+        </div>
+      </div>
+
+      <!-- Step 3: Insurance Absorption -->
+      <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-primary-fixed text-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+          </div>
+          <div>
+            <div class="font-caption text-caption text-on-surface-variant">Step 3 • Insurance / TPA Coverage</div>
+            <div class="font-body-lg-medium text-body-lg-medium text-on-surface">Cashless Policy Absorption</div>
+          </div>
+        </div>
+        <div class="text-right">
+          <div id="step3-amount" class="font-headline-sm text-headline-sm text-primary font-bold">-₹8,500</div>
+          <div class="font-caption text-caption text-on-surface-variant">After consumables + co-pay</div>
+        </div>
+      </div>
+
+      <!-- Equals -->
+      <div class="flex justify-center -my-0.5 z-10">
+        <div class="w-7 h-7 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center shadow-sm font-bold text-sm">
+          =
+        </div>
+      </div>
+
+      <!-- Step 4: Net OOP = Hero -->
+      <div class="bg-primary rounded-xl p-4 shadow-md flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-white">
+            <span class="material-symbols-outlined text-[18px]">payments</span>
+          </div>
+          <div>
+            <div class="font-caption text-caption text-on-primary/70">Your Net Out-of-Pocket</div>
+            <div class="font-headline-sm text-headline-sm text-on-primary font-bold">Estimated Payment</div>
+          </div>
+        </div>
+        <div class="text-right">
+          <div id="step4-amount" class="font-display-currency-mobile text-on-primary font-extrabold tracking-tight">₹7,500</div>
+          <div id="step4-savings-pill" class="inline-flex items-center gap-0.5 mt-1 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption font-bold">
+            <span class="material-symbols-outlined text-[11px]">trending_down</span> Saves ₹26,500
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Donut + Category Bars Visual -->
+    <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container mb-4 flex flex-col gap-3">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-[22px]">donut_large</span>
+        <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">OOP Composition</h3>
+      </div>
+      <div class="flex flex-col gap-2" id="oop-composition-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- Feature 9: What-If OOP Simulator -->
+    <div class="bg-surface-container-lowest rounded-xl p-4 shadow-md border border-surface-container mb-4 flex flex-col gap-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[22px]">tune</span>
+            What-If Simulator
+          </h3>
+          <p class="font-caption text-caption text-on-surface-variant">Adjust parameters to see how OOP changes in real time</p>
+        </div>
+        <span class="font-caption text-caption text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded-full">Prototype / Sample</span>
+      </div>
+
+      <!-- Scenario Tabs -->
+      <div class="grid grid-cols-3 gap-1.5 p-1 bg-surface-container rounded-lg">
+        <button id="tab-no-coverage" onclick="setScenario('none')" class="scenario-tab py-2 rounded-lg font-label-sm text-label-sm transition-all">No Coverage</button>
+        <button id="tab-insurance" onclick="setScenario('insurance')" class="scenario-tab py-2 rounded-lg font-label-sm text-label-sm transition-all active">With Insurance</button>
+        <button id="tab-pmjay" onclick="setScenario('pmjay')" class="scenario-tab py-2 rounded-lg font-label-sm text-label-sm transition-all">With PM-JAY</button>
+      </div>
+
+      <!-- Sliders -->
+      <div class="flex flex-col gap-4">
+        <!-- Sum Insured Slider -->
+        <div id="sum-insured-control" class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between">
+            <label class="font-label-sm text-label-sm text-on-surface font-semibold">Sum Insured</label>
+            <span id="sum-insured-label" class="font-label-md text-label-md text-primary font-bold">₹5,00,000</span>
+          </div>
+          <input type="range" id="sum-insured-slider" min="100000" max="2000000" step="50000" value="500000" oninput="updateSumInsured(this.value)" class="w-full h-2 rounded-full bg-surface-container-high appearance-none cursor-pointer"/>
+          <div class="flex justify-between font-caption text-caption text-on-surface-variant">
+            <span>₹1 Lakh</span><span>₹20 Lakh</span>
+          </div>
+        </div>
+
+        <!-- Co-pay Slider -->
+        <div id="copay-control" class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between">
+            <label class="font-label-sm text-label-sm text-on-surface font-semibold">Co-pay Rate</label>
+            <span id="copay-label" class="font-label-md text-label-md text-primary font-bold">10%</span>
+          </div>
+          <input type="range" id="copay-slider" min="0" max="30" step="5" value="10" oninput="updateCopay(this.value)" class="w-full h-2 rounded-full appearance-none cursor-pointer"/>
+          <div class="flex justify-between font-caption text-caption text-on-surface-variant">
+            <span>0% (No Co-pay)</span><span>30% Senior Co-pay</span>
+          </div>
+        </div>
+
+        <!-- Room Type Upgrade -->
+        <div class="flex flex-col gap-1.5">
+          <label class="font-label-sm text-label-sm text-on-surface font-semibold">Ward Type</label>
+          <div class="grid grid-cols-4 gap-1">
+            <button onclick="selectWard('general', this)" class="h-9 rounded-lg bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container transition-all">General</button>
+            <button onclick="selectWard('twin', this)" class="h-9 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm transition-all ward-selected">Twin</button>
+            <button onclick="selectWard('private', this)" class="h-9 rounded-lg bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container transition-all">Private</button>
+            <button onclick="selectWard('deluxe', this)" class="h-9 rounded-lg bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container transition-all">Deluxe</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live OOP Result from Simulator -->
+      <div class="p-4 rounded-xl bg-surface-container-low border border-surface-container flex flex-col gap-2">
+        <div class="flex items-center justify-between">
+          <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Simulated OOP Result</span>
+          <span id="sim-change-pill" class="font-caption text-caption text-on-surface-variant"></span>
+        </div>
+        <div class="flex items-end gap-2">
+          <span id="sim-oop-amount" class="font-display-currency-mobile text-on-surface font-extrabold tracking-tight">₹7,500</span>
+          <span class="font-body-md text-body-md text-on-surface-variant mb-1">out of pocket</span>
+        </div>
+        <div id="sim-warning" class="hidden flex items-start gap-1.5 p-2 rounded-lg bg-error-container/50 text-on-error-container">
+          <span class="material-symbols-outlined text-[16px]">warning</span>
+          <span class="font-caption text-caption">Room rent proportionate deduction risk: Deluxe room exceeds policy cap.</span>
+        </div>
+        <div class="flex flex-col gap-1.5 mt-1">
+          <div class="flex justify-between text-caption font-caption text-on-surface-variant">
+            <span>Breakdown</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-secondary shrink-0"></span>
+            <span class="font-caption text-caption text-on-surface-variant flex-1">Govt Scheme</span>
+            <span id="sim-govt" class="font-label-sm text-label-sm text-on-surface font-bold">₹18,000</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-primary shrink-0"></span>
+            <span class="font-caption text-caption text-on-surface-variant flex-1">Insurance</span>
+            <span id="sim-insurance" class="font-label-sm text-label-sm text-on-surface font-bold">₹8,500</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-tertiary shrink-0"></span>
+            <span class="font-caption text-caption text-on-surface-variant flex-1">Patient OOP</span>
+            <span id="sim-patient" class="font-label-sm text-label-sm text-primary font-bold">₹7,500</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation CTAs -->
+    <div class="flex flex-wrap gap-2 mb-4">
+      <a href="../government_schemes_eligibility/code.html" class="flex-1 min-w-[140px] h-11 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 transition-all">
+        <span class="material-symbols-outlined text-[18px]">health_and_safety</span> Check Eligibility
+      </a>
+      <a href="../find_care_affordability_map/code.html" class="flex-1 min-w-[140px] h-11 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm">
+        <span class="material-symbols-outlined text-[18px]">local_hospital</span> Find Facilities
+      </a>
+    </div>
+
+    <p class="font-caption text-caption text-outline italic">*All figures are indicative estimates based on sample data. Prototype for demonstration — not medical or financial advice.</p>
+  </main>
+
+  <!-- Bottom Nav -->
+  <nav class="fixed bottom-0 w-full z-40 pb-safe bg-surface/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)] border-t border-surface-container">
+    <div class="h-20 px-1 grid grid-cols-5 items-center justify-items-center max-w-5xl mx-auto">
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary transition-colors gap-1" href="../carecost_ai_home_dashboard/code.html">
+        <span class="material-symbols-outlined text-[22px]">grid_view</span><span class="font-caption text-caption">Home</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary transition-colors gap-1" href="../cost_estimator_benchmark/code.html">
+        <span class="material-symbols-outlined text-[22px]">calculate</span><span class="font-caption text-caption">Estimator</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary transition-colors gap-1" href="../find_care_affordability_map/code.html">
+        <span class="material-symbols-outlined text-[22px]">local_hospital</span><span class="font-caption text-caption">Find Care</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary transition-colors gap-1" href="../government_schemes_eligibility/code.html">
+        <span class="material-symbols-outlined text-[22px]">health_and_safety</span><span class="font-caption text-caption">Schemes</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary transition-colors gap-1" href="../saved_and_family/code.html">
+        <span class="material-symbols-outlined text-[22px]">bookmarks</span><span class="font-caption text-caption">Saved</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    let currentTreatmentId = 'cataract-surgery';
+    let currentTier = 'privateTier2';
+    let currentScenario = 'insurance'; // 'none', 'insurance', 'pmjay'
+    let currentWard = 'twin';
+    let currentSumInsured = 500000;
+    let currentCopay = 10;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Populate treatment dropdown
+      const select = document.getElementById('oop-treatment-select');
+      window.CareCostData.getTreatments().forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = t.name;
+        if (t.id === currentTreatmentId) opt.selected = true;
+        select.appendChild(opt);
+      });
+
+      // Read from URL
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('treatment')) {
+        currentTreatmentId = params.get('treatment');
+        select.value = currentTreatmentId;
+      }
+
+      recalculateOOP();
+    });
+
+    function recalculateOOP() {
+      currentTreatmentId = document.getElementById('oop-treatment-select').value;
+      currentTier = document.getElementById('oop-tier-select').value;
+      
+      const treatment = window.CareCostData.getTreatmentById(currentTreatmentId);
+      document.getElementById('procedure-title').textContent = treatment.name;
+
+      const tierCost = treatment.costs[currentTier] || treatment.costs.privateTier2;
+      const typicalCost = tierCost.typical;
+
+      // Govt scheme amount
+      let govtSchemeAmount = 0;
+      if (currentScenario !== 'none' && currentTier !== 'govt') {
+        const pkgAmt = treatment.pmjayPackage ? treatment.pmjayPackage.coverageAmount : 0;
+        govtSchemeAmount = currentScenario === 'pmjay' ? Math.min(pkgAmt, typicalCost * 0.75) : 0;
+      } else if (currentTier === 'govt') {
+        govtSchemeAmount = typicalCost; // effectively free
+      }
+
+      const remainder = Math.max(0, typicalCost - govtSchemeAmount);
+      const consumables = Math.round(typicalCost * 0.08);
+      let insuranceCoverage = 0;
+      if (currentScenario === 'insurance' || currentScenario === 'pmjay') {
+        const claimable = Math.max(0, remainder - consumables);
+        const copay = Math.round(claimable * (currentCopay / 100));
+        insuranceCoverage = claimable - copay;
+      }
+
+      const oopAmount = Math.max(0, typicalCost - govtSchemeAmount - insuranceCoverage);
+      const savings = typicalCost - oopAmount;
+
+      // Update step-by-step breakdown
+      document.getElementById('step1-amount').textContent = '₹' + typicalCost.toLocaleString('en-IN');
+      document.getElementById('step2-label').textContent = currentTier === 'govt' ? 'Full Government Subsidy' : 'PM-JAY / Aarogyasri Package';
+      document.getElementById('step2-amount').textContent = '-₹' + govtSchemeAmount.toLocaleString('en-IN');
+      document.getElementById('step3-amount').textContent = currentScenario === 'none' ? '—' : '-₹' + insuranceCoverage.toLocaleString('en-IN');
+      document.getElementById('step4-amount').textContent = '₹' + oopAmount.toLocaleString('en-IN');
+      document.getElementById('step4-savings-pill').innerHTML = `<span class="material-symbols-outlined text-[11px]">trending_down</span> Saves ₹${savings.toLocaleString('en-IN')}`;
+
+      // OOP composition bars
+      const bp = treatment.breakdownPercents;
+      const compositionItems = [
+        { label: 'Non-payable Consumables', amount: Math.round(typicalCost * 0.08), color: 'bg-outline-variant', pct: 8 },
+        { label: 'Co-pay (Your %) ', amount: Math.round(Math.max(0,remainder - Math.round(typicalCost*0.08)) * (currentCopay/100)), color: 'bg-primary-container', pct: Math.round(currentCopay * 0.7) },
+        { label: 'Excess / Upgrade Premium', amount: Math.max(0, oopAmount - Math.round(typicalCost*0.08) - Math.round(Math.max(0,remainder - Math.round(typicalCost*0.08)) * (currentCopay/100))), color: 'bg-surface-container-high', pct: 0 }
+      ];
+
+      const compContainer = document.getElementById('oop-composition-container');
+      compContainer.innerHTML = '';
+      compositionItems.forEach(item => {
+        const pct = oopAmount > 0 ? Math.round((item.amount / oopAmount) * 100) : 0;
+        const div = document.createElement('div');
+        div.className = 'flex flex-col gap-1';
+        div.innerHTML = `
+          <div class="flex justify-between font-caption text-caption">
+            <span class="text-on-surface-variant">${item.label}</span>
+            <span class="font-semibold text-on-surface">₹${item.amount.toLocaleString('en-IN')} (${pct}%)</span>
+          </div>
+          <div class="h-2 rounded-full bg-surface-container-high overflow-hidden">
+            <div class="${item.color} h-full rounded-full transition-all duration-500" style="width:${Math.min(100,pct)}%"></div>
+          </div>
+        `;
+        compContainer.appendChild(div);
+      });
+
+      // Update simulator panel too
+      updateSimulatorDisplay(govtSchemeAmount, insuranceCoverage, oopAmount, currentWard);
+    }
+
+    function updateSimulatorDisplay(govt, insurance, oop, ward) {
+      document.getElementById('sim-oop-amount').textContent = '₹' + oop.toLocaleString('en-IN');
+      document.getElementById('sim-govt').textContent = '₹' + govt.toLocaleString('en-IN');
+      document.getElementById('sim-insurance').textContent = '₹' + insurance.toLocaleString('en-IN');
+      document.getElementById('sim-patient').textContent = '₹' + oop.toLocaleString('en-IN');
+      
+      const warning = document.getElementById('sim-warning');
+      if (ward === 'deluxe' && currentScenario === 'insurance') {
+        warning.classList.remove('hidden');
+      } else {
+        warning.classList.add('hidden');
+      }
+    }
+
+    function setScenario(scenario) {
+      currentScenario = scenario;
+      const tabs = { none: 'tab-no-coverage', insurance: 'tab-insurance', pmjay: 'tab-pmjay' };
+      Object.keys(tabs).forEach(k => {
+        const el = document.getElementById(tabs[k]);
+        if (k === scenario) el.classList.add('active'); 
+        else el.classList.remove('active');
+      });
+      const hasInsurance = scenario !== 'none';
+      document.getElementById('sum-insured-control').style.opacity = hasInsurance ? '1' : '0.4';
+      document.getElementById('copay-control').style.opacity = hasInsurance ? '1' : '0.4';
+      recalculateOOP();
+    }
+
+    function updateSumInsured(val) {
+      currentSumInsured = parseInt(val);
+      const lakh = currentSumInsured / 100000;
+      document.getElementById('sum-insured-label').textContent = lakh >= 10 ? `₹${lakh} Lakh` : `₹${lakh} Lakh`;
+      recalculateOOP();
+    }
+
+    function updateCopay(val) {
+      currentCopay = parseInt(val);
+      document.getElementById('copay-label').textContent = currentCopay + '%';
+      recalculateOOP();
+    }
+
+    function selectWard(ward, btn) {
+      currentWard = ward;
+      const buttons = document.querySelectorAll('#\\33 4 button, .ward-btn');
+      // Reset all ward buttons
+      document.querySelectorAll('[onclick^="selectWard"]').forEach(b => {
+        b.className = 'h-9 rounded-lg bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container transition-all';
+      });
+      btn.className = 'h-9 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm transition-all ward-selected';
+      recalculateOOP();
+    }
+  </script>
+</body>
+</html>

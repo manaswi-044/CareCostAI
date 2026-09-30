@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+  <title>CareCost AI - Saved & Family Profiles</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary":"#ffffff","on-secondary-container":"#006f66","on-surface-variant":"#3f4850","surface-container":"#e3efff","primary-fixed":"#cce5ff","primary":"#006194","surface-container-lowest":"#ffffff","outline-variant":"#bfc7d2","inverse-surface":"#1d3245","error":"#ba1a1a","error-container":"#ffdad6","on-secondary":"#ffffff","surface-variant":"#cfe5fd","surface-container-highest":"#cfe5fd","secondary-fixed":"#89f5e7","surface-bright":"#f7f9ff","tertiary":"#006947","secondary-container":"#86f2e4","primary-container":"#007bb9","inverse-primary":"#93ccff","on-error-container":"#93000a","on-surface":"#061d2f","tertiary-container":"#00855b","surface-container-high":"#d8eaff","on-background":"#061d2f","primary-fixed-dim":"#93ccff","surface":"#f7f9ff","tertiary-fixed":"#6ffbbe","outline":"#707881","on-error":"#ffffff","surface-container-low":"#edf4ff","background":"#f7f9ff","secondary":"#006a61","on-tertiary":"#ffffff","on-tertiary-fixed":"#002113"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},fontFamily:{"label-sm":["Inter"],"body-md":["Inter"],"caption":["Inter"],"headline-md":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"body-lg-medium":["Inter"],"body-md-medium":["Inter"],"headline-sm":["Plus Jakarta Sans"],"label-md":["Inter"],"body-lg":["Inter"]}}}}</script>
+  <style>
+    @layer base{html,body{width:100%;margin:0;padding:0;background-color:#f7f9ff;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}
+    .tab-active { background:#006194; color:#fff; }
+    .tab-inactive { background:#e3efff; color:#3f4850; }
+    .swipe-item { transition: transform 0.2s ease; }
+  </style>
+  <script src="../data/treatments.js"></script>
+  <script src="../data/facilities.js"></script>
+  <script src="../data/governmentSchemes.js"></script>
+  <script src="../data/insurance.js"></script>
+  <script src="../data/mockData.js"></script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen flex flex-col antialiased">
+
+  <!-- Header -->
+  <header class="fixed top-0 w-full z-50 pt-safe bg-surface/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="h-16 px-4 flex items-center justify-between gap-2 max-w-5xl mx-auto w-full">
+      <div class="flex items-center gap-2 min-w-0">
+        <a href="../carecost_ai_home_dashboard/code.html" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container-low transition-colors">
+          <span class="material-symbols-outlined text-[22px]">arrow_back</span>
+        </a>
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none font-bold">Saved & Family</span>
+          <span class="font-caption text-caption text-on-surface-variant">My Healthcare Hub</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="tel:108" class="h-9 px-2.5 rounded-full bg-error-container flex items-center gap-1">
+          <span class="material-symbols-outlined text-error text-[17px]">e911_emergency</span>
+          <span class="font-label-sm text-label-sm text-error font-bold">108</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex flex-col w-full pt-20 pb-28 min-h-screen max-w-5xl mx-auto px-4">
+
+    <!-- User Profile Hero -->
+    <div class="flex items-center gap-3 mb-5 p-4 bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container">
+      <div class="w-14 h-14 rounded-full bg-primary flex items-center justify-center shrink-0">
+        <span class="font-headline-lg-mobile text-on-primary font-bold">AR</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="font-headline-sm text-headline-sm text-on-surface font-bold">Arjun Reddy</div>
+        <div class="font-caption text-caption text-on-surface-variant">Hyderabad, Telangana • Age 45</div>
+        <div class="flex items-center gap-1.5 mt-1 flex-wrap">
+          <span class="px-2 py-0.5 rounded-full bg-secondary-container/60 text-secondary font-caption text-caption font-semibold">White Ration Card</span>
+          <span class="px-2 py-0.5 rounded-full bg-secondary-container/60 text-secondary font-caption text-caption font-semibold">PM-JAY Eligible</span>
+        </div>
+      </div>
+      <button class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors">
+        <span class="material-symbols-outlined text-[20px]">edit</span>
+      </button>
+    </div>
+
+    <!-- Tab Bar: Saved / Estimates / Family -->
+    <div class="grid grid-cols-3 gap-1 p-1 bg-surface-container rounded-lg mb-4">
+      <button id="tab-saved" onclick="setTab('saved')" class="py-2.5 rounded-lg tab-active font-label-sm text-label-sm font-semibold transition-all">
+        🔖 Saved
+      </button>
+      <button id="tab-estimates" onclick="setTab('estimates')" class="py-2.5 rounded-lg tab-inactive font-label-sm text-label-sm font-semibold transition-all">
+        📊 Estimates
+      </button>
+      <button id="tab-family" onclick="setTab('family')" class="py-2.5 rounded-lg tab-inactive font-label-sm text-label-sm font-semibold transition-all">
+        👨‍👩‍👧 Family
+      </button>
+    </div>
+
+    <!-- ========== SAVED VIEW ========== -->
+    <div id="view-saved" class="flex flex-col gap-3">
+      <!-- Saved Facilities -->
+      <h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">Saved Hospitals</h2>
+      <div id="saved-facilities-container" class="flex flex-col gap-2.5">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <!-- Saved Schemes -->
+      <h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider mt-2">Saved Schemes</h2>
+      <div id="saved-schemes-container" class="flex flex-col gap-2.5">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <div id="saved-empty" class="hidden flex flex-col items-center py-10 gap-3 text-center">
+        <span class="material-symbols-outlined text-[48px] text-outline-variant">bookmarks</span>
+        <div class="font-headline-sm text-headline-sm text-on-surface font-bold">Nothing saved yet</div>
+        <p class="font-body-md text-body-md text-on-surface-variant">Save hospitals, schemes, and estimates to quickly access them here.</p>
+        <a href="../find_care_affordability_map/code.html" class="mt-2 h-11 px-6 rounded-full bg-primary text-on-primary font-label-md text-label-md font-bold flex items-center gap-2 shadow-sm">
+          <span class="material-symbols-outlined text-[18px]">search</span> Find Care Now
+        </a>
+      </div>
+    </div>
+
+    <!-- ========== ESTIMATES VIEW ========== -->
+    <div id="view-estimates" class="hidden flex flex-col gap-3">
+      <div id="estimates-container" class="flex flex-col gap-2.5">
+        <!-- Dynamically rendered -->
+      </div>
+      <div id="estimates-empty" class="hidden flex flex-col items-center py-10 gap-3 text-center">
+        <span class="material-symbols-outlined text-[48px] text-outline-variant">calculate</span>
+        <div class="font-headline-sm text-headline-sm text-on-surface font-bold">No saved estimates</div>
+        <p class="font-body-md text-body-md text-on-surface-variant">Use the cost estimator to generate and save personalised cost breakdowns.</p>
+        <a href="../cost_estimator_benchmark/code.html" class="mt-2 h-11 px-6 rounded-full bg-primary text-on-primary font-label-md text-label-md font-bold flex items-center gap-2 shadow-sm">
+          <span class="material-symbols-outlined text-[18px]">calculate</span> Open Estimator
+        </a>
+      </div>
+    </div>
+
+    <!-- ========== FAMILY VIEW ========== -->
+    <div id="view-family" class="hidden flex flex-col gap-3">
+      <!-- Summary Card -->
+      <div class="p-4 rounded-xl bg-primary shadow-md flex items-center gap-3">
+        <span class="material-symbols-outlined text-on-primary text-[32px]">family_restroom</span>
+        <div class="flex-1">
+          <div class="font-headline-sm text-headline-sm text-on-primary font-bold">Reddy Family</div>
+          <div class="font-body-md text-body-md text-on-primary/80">4 members registered</div>
+        </div>
+        <div class="flex flex-col items-end">
+          <div class="font-caption text-caption text-on-primary/70">Floater Coverage</div>
+          <div class="font-headline-sm text-headline-sm text-on-primary font-bold">₹10 Lakh</div>
+        </div>
+      </div>
+
+      <!-- Family Member Cards -->
+      <div id="family-members" class="flex flex-col gap-2.5">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <!-- Add Member Button -->
+      <button onclick="showAddMemberToast()" class="w-full h-11 rounded-lg border-2 border-dashed border-outline-variant text-on-surface-variant font-label-md text-label-md flex items-center justify-center gap-1.5 hover:bg-surface-container transition-all">
+        <span class="material-symbols-outlined text-[20px]">person_add</span> Add Family Member
+      </button>
+
+      <!-- Family OOP Tracker Table -->
+      <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container p-4 flex flex-col gap-2 mt-2">
+        <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">This Year's Healthcare Spend</h3>
+        <div class="flex flex-col gap-1.5" id="family-spend-table">
+          <!-- Dynamically rendered -->
+        </div>
+        <div class="flex justify-between pt-2 border-t border-surface-container">
+          <span class="font-label-md text-label-md text-on-surface font-bold">Total Family OOP</span>
+          <span class="font-headline-sm text-headline-sm text-primary font-extrabold">₹24,200</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full bg-inverse-surface text-inverse-on-surface font-label-sm text-label-sm shadow-xl flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300">
+    <span class="material-symbols-outlined text-[18px] text-tertiary-fixed">check_circle</span>
+    <span id="toast-message">Done!</span>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="fixed bottom-0 w-full z-40 pb-safe bg-surface/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)] border-t border-surface-container">
+    <div class="h-20 px-1 grid grid-cols-5 items-center justify-items-center max-w-5xl mx-auto">
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary gap-1" href="../carecost_ai_home_dashboard/code.html">
+        <span class="material-symbols-outlined text-[22px]">grid_view</span><span class="font-caption text-caption">Home</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary gap-1" href="../cost_estimator_benchmark/code.html">
+        <span class="material-symbols-outlined text-[22px]">calculate</span><span class="font-caption text-caption">Estimator</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary gap-1" href="../find_care_affordability_map/code.html">
+        <span class="material-symbols-outlined text-[22px]">local_hospital</span><span class="font-caption text-caption">Find Care</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary gap-1" href="../government_schemes_eligibility/code.html">
+        <span class="material-symbols-outlined text-[22px]">health_and_safety</span><span class="font-caption text-caption">Schemes</span>
+      </a>
+      <a aria-current="page" class="flex flex-col items-center justify-center w-full h-14 text-primary font-body-md-medium gap-1" href="../saved_and_family/code.html">
+        <span class="material-symbols-outlined text-[22px]">bookmarks</span><span class="font-caption text-caption">Saved</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    const FAMILY_MEMBERS = [
+      { id: 'arjun', name: 'Arjun Reddy', relation: 'Self', age: 45, initials: 'AR', color: '#006194', conditions: ['Hypertension', 'Mild Diabetes'], nextAppointment: 'Oct 15 — Cardiology', annualSpend: 12500 },
+      { id: 'suman', name: 'Suman Reddy', relation: 'Spouse', age: 41, initials: 'SR', color: '#006947', conditions: ['Thyroid (managed)'], nextAppointment: 'Oct 22 — Endocrinology', annualSpend: 6200 },
+      { id: 'priya', name: 'Priya Reddy', relation: 'Daughter', age: 16, initials: 'PR', color: '#006a61', conditions: [], nextAppointment: 'Nov 3 — Routine Dental', annualSpend: 3800 },
+      { id: 'govind', name: 'Govind Reddy', relation: 'Father', age: 72, initials: 'GR', color: '#005236', conditions: ['COPD', 'Cataract (upcoming)'], nextAppointment: 'Oct 10 — Pulmonology', annualSpend: 1700 }
+    ];
+
+    function setTab(tab) {
+      ['saved','estimates','family'].forEach(t => {
+        const view = document.getElementById('view-' + t);
+        const tabBtn = document.getElementById('tab-' + t);
+        view.classList.toggle('hidden', t !== tab);
+        tabBtn.className = `py-2.5 rounded-lg font-label-sm text-label-sm font-semibold transition-all ${t === tab ? 'tab-active' : 'tab-inactive'}`;
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderSaved();
+      renderEstimates();
+      renderFamily();
+    });
+
+    function renderSaved() {
+      const facilities = window.CareCostData.getSavedItems('facilities');
+      const schemes = window.CareCostData.getSavedItems('schemes');
+      
+      const facilityContainer = document.getElementById('saved-facilities-container');
+      const schemeContainer = document.getElementById('saved-schemes-container');
+      
+      if (facilities.length === 0 && schemes.length === 0) {
+        document.getElementById('saved-empty').classList.remove('hidden');
+        facilityContainer.innerHTML = '';
+        schemeContainer.innerHTML = '';
+        return;
+      }
+
+      facilityContainer.innerHTML = '';
+      if (facilities.length === 0) {
+        facilityContainer.innerHTML = '<p class="font-caption text-caption text-on-surface-variant italic">No saved hospitals. <a class="text-primary font-semibold" href="../find_care_affordability_map/code.html">Search & save facilities →</a></p>';
+      } else {
+        facilities.forEach(f => {
+          const card = document.createElement('div');
+          card.className = 'bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container flex items-center gap-3';
+          const schemeBadges = (f.govtSchemes || []).slice(0,2).map(s => `<span class="px-1.5 py-0.5 rounded bg-secondary-container/60 text-secondary font-caption text-caption font-semibold">${s}</span>`).join('');
+          card.innerHTML = `
+            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-primary text-[22px]">local_hospital</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-body-md-medium text-body-md-medium text-on-surface font-semibold truncate">${f.name}</div>
+              <div class="font-caption text-caption text-on-surface-variant">${f.area || ''} • ${f.distanceKm || '?'} km • ⭐ ${f.rating || '—'}</div>
+              <div class="flex flex-wrap gap-1 mt-1">${schemeBadges}${f.cashlessInsurance ? '<span class="px-1.5 py-0.5 rounded bg-primary-fixed text-primary font-caption text-caption font-semibold">💳 Cashless</span>' : ''}</div>
+            </div>
+            <div class="flex flex-col gap-1 shrink-0">
+              <a href="../find_care_affordability_map/code.html" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors">
+                <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+              </a>
+              <button onclick="removeItem('facilities','${f.id}', this)" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-error hover:bg-error-container transition-colors">
+                <span class="material-symbols-outlined text-[18px]">delete</span>
+              </button>
+            </div>
+          `;
+          facilityContainer.appendChild(card);
+        });
+      }
+
+      schemeContainer.innerHTML = '';
+      if (schemes.length === 0) {
+        schemeContainer.innerHTML = '<p class="font-caption text-caption text-on-surface-variant italic">No saved schemes. <a class="text-primary font-semibold" href="../government_schemes_eligibility/code.html">Browse schemes →</a></p>';
+      } else {
+        schemes.forEach(s => {
+          const card = document.createElement('div');
+          card.className = 'bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-surface-container flex items-center gap-3';
+          card.innerHTML = `
+            <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-white" style="background:${s.color || '#006194'}">
+              <span class="material-symbols-outlined text-[20px]">${s.icon || 'health_and_safety'}</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-body-md-medium text-body-md-medium text-on-surface font-semibold">${s.shortName || s.name}</div>
+              <div class="font-caption text-caption text-on-surface-variant">${s.coverageLimit || ''}</div>
+            </div>
+            <button onclick="removeItem('schemes','${s.id}', this)" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-error hover:bg-error-container transition-colors">
+              <span class="material-symbols-outlined text-[18px]">delete</span>
+            </button>
+          `;
+          schemeContainer.appendChild(card);
+        });
+      }
+    }
+
+    function renderEstimates() {
+      const estimates = window.CareCostData.getSavedItems('estimates');
+      const container = document.getElementById('estimates-container');
+      const empty = document.getElementById('estimates-empty');
+      
+      if (estimates.length === 0) {
+        empty.classList.remove('hidden');
+        container.innerHTML = '';
+        return;
+      }
+
+      empty.classList.add('hidden');
+      container.innerHTML = '';
+      estimates.forEach((est, idx) => {
+        const card = document.createElement('div');
+        card.className = 'bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container flex flex-col gap-2';
+        card.innerHTML = `
+          <div class="flex items-start justify-between">
+            <div class="flex-1">
+              <div class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">${est.date || 'Recent'}</div>
+              <div class="font-headline-sm text-headline-sm text-on-surface font-bold">${est.treatmentName || 'Treatment Estimate'}</div>
+              <div class="font-caption text-caption text-on-surface-variant">${est.facilityType || 'NABH Private'} • ${est.coverage || 'With Insurance'}</div>
+            </div>
+            <div class="flex flex-col items-end">
+              <div class="font-caption text-caption text-on-surface-variant">Est. OOP</div>
+              <div class="font-headline-sm text-headline-sm text-primary font-bold">₹${(est.oop || 0).toLocaleString('en-IN')}</div>
+            </div>
+          </div>
+          <div class="flex gap-2 pt-2 border-t border-surface-container">
+            <a href="../out_of_pocket_cost_breakdown/code.html?treatment=${est.treatmentId || ''}" class="flex-1 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold flex items-center justify-center gap-1 transition-all">
+              <span class="material-symbols-outlined text-[15px]">visibility</span> View Breakdown
+            </a>
+            <button onclick="removeItem('estimates', '${idx}', this)" class="h-9 px-3 rounded-lg bg-surface-container hover:bg-error-container text-error font-label-sm text-label-sm flex items-center gap-1 transition-all">
+              <span class="material-symbols-outlined text-[15px]">delete</span>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderFamily() {
+      const membersContainer = document.getElementById('family-members');
+      membersContainer.innerHTML = '';
+      
+      const spendTable = document.getElementById('family-spend-table');
+      spendTable.innerHTML = '';
+
+      FAMILY_MEMBERS.forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container flex flex-col gap-2.5';
+        card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full flex items-center justify-center shrink-0 text-white font-bold font-headline-sm text-headline-sm" style="background:${m.color}">${m.initials}</div>
+            <div class="flex-1 min-w-0">
+              <div class="font-body-md-medium text-body-md-medium text-on-surface font-semibold">${m.name}</div>
+              <div class="font-caption text-caption text-on-surface-variant">${m.relation} • Age ${m.age}</div>
+            </div>
+            <a href="../cost_estimator_benchmark/code.html" class="h-8 px-2.5 rounded-full bg-primary text-on-primary font-caption text-caption font-bold flex items-center gap-1 shadow-sm">
+              <span class="material-symbols-outlined text-[14px]">calculate</span> Estimate
+            </a>
+          </div>
+
+          ${m.conditions.length > 0 ? `
+          <div class="flex flex-wrap gap-1">
+            ${m.conditions.map(c => `<span class="px-2 py-0.5 rounded-full bg-error-container/60 text-on-error-container font-caption text-caption font-semibold">${c}</span>`).join('')}
+          </div>
+          ` : '<div class="font-caption text-caption text-tertiary font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> No active conditions</div>'}
+
+          <div class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-low">
+            <span class="material-symbols-outlined text-primary text-[16px] shrink-0">event</span>
+            <div class="min-w-0">
+              <div class="font-caption text-caption text-on-surface-variant">Next Appointment</div>
+              <div class="font-label-sm text-label-sm text-on-surface font-semibold truncate">${m.nextAppointment}</div>
+            </div>
+          </div>
+        `;
+        membersContainer.appendChild(card);
+
+        // Spend row
+        const row = document.createElement('div');
+        row.className = 'flex items-center gap-2 py-1.5 border-b border-surface-container last:border-0';
+        row.innerHTML = `
+          <div class="w-6 h-6 rounded-full flex items-center justify-center text-white font-bold text-[10px] shrink-0" style="background:${m.color}">${m.initials}</div>
+          <span class="flex-1 font-body-md text-body-md text-on-surface">${m.name} <span class="text-on-surface-variant">(${m.relation})</span></span>
+          <span class="font-label-md text-label-md text-on-surface font-bold">₹${m.annualSpend.toLocaleString('en-IN')}</span>
+        `;
+        spendTable.appendChild(row);
+      });
+    }
+
+    function removeItem(type, id, btn) {
+      window.CareCostData.removeItem(type, id);
+      const card = btn.closest('.rounded-xl');
+      if (card) { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; card.style.transition = 'all 0.2s ease'; setTimeout(() => { card.remove(); renderSaved(); }, 200); }
+    }
+
+    function showAddMemberToast() { showToast('Add Member: Available in full product'); }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => { toast.classList.remove('opacity-100'); toast.classList.add('opacity-0', 'pointer-events-none'); }, 2500);
+    }
+  </script>
+</body>
+</html>

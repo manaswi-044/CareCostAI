@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+  <title>CareCost AI - Government Schemes & Eligibility Checker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary":"#ffffff","on-secondary-container":"#006f66","on-surface-variant":"#3f4850","surface-container":"#e3efff","primary-fixed":"#cce5ff","primary":"#006194","surface-container-lowest":"#ffffff","outline-variant":"#bfc7d2","on-primary-container":"#fdfcff","inverse-surface":"#1d3245","error":"#ba1a1a","error-container":"#ffdad6","on-secondary":"#ffffff","surface-variant":"#cfe5fd","surface-container-highest":"#cfe5fd","secondary-fixed":"#89f5e7","surface-bright":"#f7f9ff","tertiary":"#006947","secondary-container":"#86f2e4","primary-container":"#007bb9","inverse-primary":"#93ccff","on-error-container":"#93000a","on-surface":"#061d2f","tertiary-container":"#00855b","surface-container-high":"#d8eaff","on-background":"#061d2f","primary-fixed-dim":"#93ccff","surface":"#f7f9ff","tertiary-fixed":"#6ffbbe","outline":"#707881","on-error":"#ffffff","surface-container-low":"#edf4ff","background":"#f7f9ff","secondary":"#006a61","on-tertiary":"#ffffff","on-secondary-container":"#006f66","on-tertiary-fixed":"#002113"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"margin":"1rem","space-md":"1rem","space-xs":"0.25rem","space-xl":"2.25rem","space-sm":"0.5rem","space-lg":"1.5rem"},fontFamily:{"label-sm":["Inter"],"body-md":["Inter"],"caption":["Inter"],"headline-md":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"display-currency-mobile":["Plus Jakarta Sans"],"body-lg-medium":["Inter"],"body-md-medium":["Inter"],"headline-sm":["Plus Jakarta Sans"],"label-md":["Inter"],"body-lg":["Inter"]}}}}</script>
+  <style>
+    @layer base{html,body{width:100%;margin:0;padding:0;background-color:#f7f9ff;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}
+    .scheme-panel { transition: max-height 0.3s ease, opacity 0.3s ease; overflow: hidden; }
+    .tab-active { background: #006194; color: #fff; }
+    .tab-inactive { background: #e3efff; color: #3f4850; }
+  </style>
+  <script src="../data/treatments.js"></script>
+  <script src="../data/facilities.js"></script>
+  <script src="../data/governmentSchemes.js"></script>
+  <script src="../data/insurance.js"></script>
+  <script src="../data/mockData.js"></script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen flex flex-col antialiased">
+
+  <!-- Header -->
+  <header class="fixed top-0 w-full z-50 pt-safe bg-surface/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="h-16 px-4 flex items-center justify-between gap-2 max-w-5xl mx-auto w-full">
+      <div class="flex items-center gap-2 min-w-0">
+        <a href="../carecost_ai_home_dashboard/code.html" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container-low transition-colors">
+          <span class="material-symbols-outlined text-[22px]">arrow_back</span>
+        </a>
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none font-bold">Govt Schemes</span>
+          <span class="font-caption text-caption text-on-surface-variant">& Eligibility Checker</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="tel:108" class="h-9 px-2.5 rounded-full bg-error-container flex items-center gap-1">
+          <span class="material-symbols-outlined text-error text-[17px]">e911_emergency</span>
+          <span class="font-label-sm text-label-sm text-error font-bold">108</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex flex-col w-full pt-20 pb-28 min-h-screen max-w-5xl mx-auto px-4">
+    
+    <!-- Page Header -->
+    <div class="flex flex-col gap-1.5 mb-4">
+      <div class="inline-flex items-center gap-1.5 self-start px-2.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">
+        <span class="material-symbols-outlined text-[14px]">policy</span> India Healthcare Finance Guide
+      </div>
+      <h1 class="font-headline-lg-mobile text-on-surface tracking-tight font-bold">Government Schemes & Your Eligibility</h1>
+      <p class="font-body-md text-body-md text-on-surface-variant">Explore 5 major financial protection programs and find out what you qualify for.</p>
+    </div>
+
+    <!-- Tab Switcher: Schemes Browse / Eligibility Checker -->
+    <div class="grid grid-cols-2 gap-1 p-1 bg-surface-container rounded-lg mb-4">
+      <button id="tab-browse" onclick="setTab('browse')" class="py-2.5 rounded-lg tab-active font-label-sm text-label-sm font-semibold transition-all">
+        📋 Browse Schemes
+      </button>
+      <button id="tab-checker" onclick="setTab('checker')" class="py-2.5 rounded-lg tab-inactive font-label-sm text-label-sm font-semibold transition-all">
+        ✅ Check My Eligibility
+      </button>
+    </div>
+
+    <!-- ========== SCHEMES BROWSE VIEW ========== -->
+    <div id="view-browse" class="flex flex-col gap-3">
+      <!-- Schemes Rendered Dynamically -->
+    </div>
+
+    <!-- ========== ELIGIBILITY CHECKER VIEW ========== -->
+    <div id="view-checker" class="hidden flex flex-col gap-4">
+      <!-- Intro Card -->
+      <div class="p-4 rounded-xl bg-primary text-on-primary flex items-start gap-3">
+        <span class="material-symbols-outlined text-[28px] shrink-0 mt-0.5">quiz</span>
+        <div>
+          <div class="font-headline-sm text-headline-sm font-bold">Quick Eligibility Questionnaire</div>
+          <p class="font-body-md text-body-md text-on-primary/80 mt-0.5">Answer a few questions to get a personalised scheme match in under 60 seconds.</p>
+          <div class="font-caption text-caption text-on-primary/60 mt-1">Prototype — sample data only. Verify at official portals.</div>
+        </div>
+      </div>
+
+      <!-- Questions Form -->
+      <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container flex flex-col gap-4">
+        <!-- Age -->
+        <div class="flex flex-col gap-1.5">
+          <label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[18px]">elderly</span> Your Age
+          </label>
+          <div class="flex items-center gap-3">
+            <input type="range" id="q-age" min="18" max="90" value="45" step="1" oninput="document.getElementById('q-age-label').textContent = this.value + ' years'"
+              class="flex-1 h-2 rounded-full appearance-none cursor-pointer" style="accent-color:#006194"/>
+            <span id="q-age-label" class="font-label-md text-label-md text-primary font-bold w-20 text-right">45 years</span>
+          </div>
+        </div>
+
+        <!-- Annual Income -->
+        <div class="flex flex-col gap-1.5">
+          <label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[18px]">payments</span> Annual Household Income
+          </label>
+          <select id="q-income" class="h-11 px-3 rounded-lg bg-surface-container-low text-on-surface border border-outline-variant/30 outline-none appearance-none cursor-pointer font-body-md">
+            <option value="80000">Below ₹1 Lakh (Very Low Income)</option>
+            <option value="150000">₹1 – 2 Lakh</option>
+            <option value="200000" selected>₹2 – 3 Lakh</option>
+            <option value="350000">₹3 – 5 Lakh</option>
+            <option value="700000">₹5 – 10 Lakh</option>
+            <option value="1500000">Above ₹10 Lakh</option>
+          </select>
+        </div>
+
+        <!-- State -->
+        <div class="flex flex-col gap-1.5">
+          <label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[18px]">map</span> State of Residence
+          </label>
+          <select id="q-state" class="h-11 px-3 rounded-lg bg-surface-container-low text-on-surface border border-outline-variant/30 outline-none appearance-none cursor-pointer font-body-md">
+            <option value="Telangana" selected>Telangana</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Other">Other State</option>
+          </select>
+        </div>
+
+        <!-- Ration Card -->
+        <div class="flex flex-col gap-1.5">
+          <label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[18px]">id_card</span> Ration / Food Security Card
+          </label>
+          <div class="grid grid-cols-2 gap-2" id="ration-selector">
+            <button type="button" data-val="White Ration Card" onclick="selectRation(this)" class="p-2.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold text-center transition-all ration-selected">White Ration Card</button>
+            <button type="button" data-val="BPL Card" onclick="selectRation(this)" class="p-2.5 rounded-lg bg-surface-container-low text-on-surface font-label-sm text-label-sm text-center transition-all hover:bg-surface-container">BPL Card</button>
+            <button type="button" data-val="Antyodaya (AAY)" onclick="selectRation(this)" class="p-2.5 rounded-lg bg-surface-container-low text-on-surface font-label-sm text-label-sm text-center transition-all hover:bg-surface-container">Antyodaya (AAY)</button>
+            <button type="button" data-val="None" onclick="selectRation(this)" class="p-2.5 rounded-lg bg-surface-container-low text-on-surface font-label-sm text-label-sm text-center transition-all hover:bg-surface-container">No Ration Card</button>
+          </div>
+        </div>
+
+        <!-- Employment -->
+        <div class="flex flex-col gap-1.5">
+          <label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[18px]">work</span> Employment Type
+          </label>
+          <select id="q-employment" class="h-11 px-3 rounded-lg bg-surface-container-low text-on-surface border border-outline-variant/30 outline-none appearance-none cursor-pointer font-body-md">
+            <option value="Private Firm / Self Employed" selected>Private Firm / Self-Employed</option>
+            <option value="Organized Sector Worker">Organized Sector Worker (Factory / Large Firm)</option>
+            <option value="Central Government">Central Government Employee</option>
+            <option value="Central Government Pensioner">Central Government Pensioner</option>
+            <option value="State Government">State Government Employee</option>
+            <option value="Defense / ECHS">Defense / Paramilitary (ECHS)</option>
+            <option value="Agricultural / Informal">Agricultural / Informal Sector</option>
+          </select>
+        </div>
+
+        <!-- Has Insurance -->
+        <div class="flex flex-col gap-1.5">
+          <label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-[18px]">shield</span> Do you have Private Health Insurance?
+          </label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" id="ins-yes" onclick="setInsurance(true)" class="h-10 rounded-lg bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm transition-all hover:bg-surface-container">Yes, I have Insurance</button>
+            <button type="button" id="ins-no" onclick="setInsurance(false)" class="h-10 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold transition-all">No, I don't</button>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <button onclick="runEligibilityCheck()" class="w-full h-12 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-[20px]">manage_search</span>
+          Find My Eligible Schemes
+        </button>
+      </div>
+
+      <!-- Results Section (initially hidden) -->
+      <div id="eligibility-results" class="hidden flex flex-col gap-3">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Nav -->
+  <nav class="fixed bottom-0 w-full z-40 pb-safe bg-surface/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)] border-t border-surface-container">
+    <div class="h-20 px-1 grid grid-cols-5 items-center justify-items-center max-w-5xl mx-auto">
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary transition-colors gap-1" href="../carecost_ai_home_dashboard/code.html">
+        <span class="material-symbols-outlined text-[22px]">grid_view</span><span class="font-caption text-caption">Home</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary transition-colors gap-1" href="../cost_estimator_benchmark/code.html">
+        <span class="material-symbols-outlined text-[22px]">calculate</span><span class="font-caption text-caption">Estimator</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary transition-colors gap-1" href="../find_care_affordability_map/code.html">
+        <span class="material-symbols-outlined text-[22px]">local_hospital</span><span class="font-caption text-caption">Find Care</span>
+      </a>
+      <a aria-current="page" class="flex flex-col items-center justify-center w-full h-14 text-primary font-body-md-medium gap-1" href="../government_schemes_eligibility/code.html">
+        <span class="material-symbols-outlined text-[22px]">health_and_safety</span><span class="font-caption text-caption">Schemes</span>
+      </a>
+      <a class="flex flex-col items-center justify-center w-full h-14 text-on-surface-variant hover:text-primary transition-colors gap-1" href="../saved_and_family/code.html">
+        <span class="material-symbols-outlined text-[22px]">bookmarks</span><span class="font-caption text-caption">Saved</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    let currentTab = 'browse';
+    let selectedRation = 'White Ration Card';
+    let hasInsurance = false;
+    let expandedSchemeId = null;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderSchemes();
+    });
+
+    function setTab(tab) {
+      currentTab = tab;
+      document.getElementById('view-browse').classList.toggle('hidden', tab !== 'browse');
+      document.getElementById('view-checker').classList.toggle('hidden', tab !== 'checker');
+      document.getElementById('tab-browse').className = `py-2.5 rounded-lg font-label-sm text-label-sm font-semibold transition-all ${tab === 'browse' ? 'tab-active' : 'tab-inactive'}`;
+      document.getElementById('tab-checker').className = `py-2.5 rounded-lg font-label-sm text-label-sm font-semibold transition-all ${tab === 'checker' ? 'tab-active' : 'tab-inactive'}`;
+    }
+
+    function renderSchemes() {
+      const schemes = window.CareCostData.getSchemes();
+      const container = document.getElementById('view-browse');
+      container.innerHTML = '';
+      schemes.forEach(scheme => {
+        const card = document.createElement('div');
+        card.className = 'bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container overflow-hidden';
+        card.innerHTML = `
+          <button onclick="toggleScheme('${scheme.id}')" class="w-full p-4 flex items-start gap-3 text-left hover:bg-surface-container-low transition-colors">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-white" style="background:${scheme.color}">
+              <span class="material-symbols-outlined text-[20px]">${scheme.icon}</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-1 mb-0.5">
+                <span class="font-caption text-caption font-bold px-2 py-0.5 rounded-full text-white" style="background:${scheme.color}">${scheme.badge}</span>
+              </div>
+              <div class="font-headline-sm text-headline-sm text-on-surface font-bold leading-snug">${scheme.shortName}</div>
+              <div class="font-caption text-caption text-on-surface-variant mt-0.5">${scheme.tagline}</div>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="font-label-sm text-label-sm font-bold" style="color:${scheme.color}">${scheme.coverageLimit}</span>
+                ${scheme.cashless ? '<span class="font-caption text-caption text-tertiary font-semibold">• 💳 Cashless</span>' : ''}
+              </div>
+            </div>
+            <span id="scheme-chevron-${scheme.id}" class="material-symbols-outlined text-on-surface-variant text-[22px] mt-1 transition-transform">expand_more</span>
+          </button>
+          
+          <div id="scheme-panel-${scheme.id}" class="scheme-panel max-h-0 opacity-0">
+            <div class="px-4 pb-4 flex flex-col gap-3 border-t border-surface-container pt-3">
+              <p class="font-body-md text-body-md text-on-surface-variant">${scheme.whoItsFor}</p>
+              
+              <div class="p-3 rounded-lg bg-surface-container-low">
+                <div class="font-label-sm text-label-sm text-on-surface font-bold mb-1.5">Key Benefits</div>
+                <div class="flex flex-col gap-1.5">
+                  ${scheme.benefits.map(b => `
+                    <div class="flex items-start gap-2">
+                      <span class="material-symbols-outlined text-tertiary text-[15px] shrink-0 mt-0.5">check_circle</span>
+                      <span class="font-caption text-caption text-on-surface">${b}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-surface-container-low">
+                <div class="font-label-sm text-label-sm text-on-surface font-bold mb-1.5">How it reduces your out-of-pocket</div>
+                <p class="font-caption text-caption text-on-surface-variant">${scheme.howItReducesOOP}</p>
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+                ${scheme.officialPortal ? `<a href="${scheme.officialPortal}" target="_blank" class="h-9 px-3 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-bold flex items-center gap-1.5 shadow-sm">
+                  <span class="material-symbols-outlined text-[15px]">open_in_new</span> Official Portal
+                </a>` : ''}
+                <button onclick="event.stopPropagation(); setTab('checker')" class="h-9 px-3 rounded-full bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1.5 transition-all">
+                  <span class="material-symbols-outlined text-[15px]">quiz</span> Check My Eligibility
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleScheme(id) {
+      const panel = document.getElementById('scheme-panel-' + id);
+      const chevron = document.getElementById('scheme-chevron-' + id);
+      
+      if (expandedSchemeId && expandedSchemeId !== id) {
+        const prevPanel = document.getElementById('scheme-panel-' + expandedSchemeId);
+        const prevChevron = document.getElementById('scheme-chevron-' + expandedSchemeId);
+        if (prevPanel) { prevPanel.style.maxHeight = '0'; prevPanel.style.opacity = '0'; }
+        if (prevChevron) prevChevron.style.transform = 'rotate(0deg)';
+      }
+
+      const isExpanded = panel.style.maxHeight !== '0px' && panel.style.maxHeight !== '';
+      if (isExpanded) {
+        panel.style.maxHeight = '0';
+        panel.style.opacity = '0';
+        chevron.style.transform = 'rotate(0deg)';
+        expandedSchemeId = null;
+      } else {
+        panel.style.maxHeight = '2000px';
+        panel.style.opacity = '1';
+        chevron.style.transform = 'rotate(180deg)';
+        expandedSchemeId = id;
+      }
+    }
+
+    function selectRation(btn) {
+      selectedRation = btn.getAttribute('data-val');
+      document.querySelectorAll('#ration-selector button').forEach(b => {
+        if (b === btn) {
+          b.className = 'p-2.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold text-center transition-all ration-selected';
+        } else {
+          b.className = 'p-2.5 rounded-lg bg-surface-container-low text-on-surface font-label-sm text-label-sm text-center transition-all hover:bg-surface-container';
+        }
+      });
+    }
+
+    function setInsurance(has) {
+      hasInsurance = has;
+      document.getElementById('ins-yes').className = `h-10 rounded-lg font-label-sm text-label-sm transition-all ${has ? 'bg-primary text-on-primary font-semibold' : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container'}`;
+      document.getElementById('ins-no').className = `h-10 rounded-lg font-label-sm text-label-sm transition-all ${!has ? 'bg-primary text-on-primary font-semibold' : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container'}`;
+    }
+
+    function runEligibilityCheck() {
+      const age = parseInt(document.getElementById('q-age').value);
+      const income = parseInt(document.getElementById('q-income').value);
+      const state = document.getElementById('q-state').value;
+      const employment = document.getElementById('q-employment').value;
+
+      const results = window.CareCostData.checkEligibility({
+        age, annualIncome: income, state, rationCard: selectedRation, employment, hasInsurance
+      });
+
+      const resultsEl = document.getElementById('eligibility-results');
+      resultsEl.classList.remove('hidden');
+      
+      // Scroll to results
+      resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      resultsEl.innerHTML = `
+        <!-- Summary Header -->
+        <div class="p-4 rounded-xl ${results.matched.length > 0 ? 'bg-tertiary text-on-tertiary' : 'bg-surface-container-high text-on-surface'}">
+          <div class="font-headline-sm text-headline-sm font-bold">${results.summaryHeadline}</div>
+          <div class="font-body-md mt-0.5 ${results.matched.length > 0 ? 'text-on-tertiary/80' : 'text-on-surface-variant'}">Estimated potential savings: ${results.potentialAnnualSavings}</div>
+          <div class="font-caption text-caption mt-1 ${results.matched.length > 0 ? 'text-on-tertiary/60' : 'text-on-surface-variant/70'}">${results.disclaimer}</div>
+        </div>
+
+        ${results.matched.length > 0 ? `
+        <div>
+          <h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider mb-2">✅ Eligible Schemes (${results.matched.length})</h3>
+          <div class="flex flex-col gap-2">
+            ${results.matched.map(m => `
+              <div class="p-4 rounded-xl bg-surface-container-lowest border-l-4 border-tertiary shadow-sm">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="material-symbols-outlined text-tertiary text-[20px]">${m.scheme.icon}</span>
+                  <span class="font-headline-sm text-headline-sm text-on-surface font-bold">${m.scheme.shortName}</span>
+                </div>
+                <div class="font-caption text-caption text-on-surface-variant mb-1.5">${m.reason}</div>
+                <div class="font-label-sm text-label-sm font-bold text-tertiary">${m.scheme.coverageLimit}</div>
+                ${m.scheme.helpdesk ? `<div class="mt-2 font-caption text-caption text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">call</span>${m.scheme.helpdesk}</div>` : ''}
+                ${m.scheme.officialPortal ? `<a href="${m.scheme.officialPortal}" target="_blank" class="mt-2 inline-flex items-center gap-1 font-label-sm text-label-sm text-primary font-semibold"><span class="material-symbols-outlined text-[14px]">open_in_new</span>Apply / Verify Online</a>` : ''}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        ` : ''}
+
+        ${results.partial.length > 0 ? `
+        <div>
+          <h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider mb-2">ℹ️ Not Currently Matched (${results.partial.length})</h3>
+          <div class="flex flex-col gap-2">
+            ${results.partial.map(p => `
+              <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container flex items-start gap-2.5">
+                <span class="material-symbols-outlined text-outline text-[18px] shrink-0 mt-0.5">info</span>
+                <div>
+                  <span class="font-label-sm text-label-sm text-on-surface font-semibold">${p.scheme.shortName}</span>
+                  <div class="font-caption text-caption text-on-surface-variant mt-0.5">${p.reason}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        ` : ''}
+
+        <div class="flex gap-2">
+          <a href="../cost_estimator_benchmark/code.html" class="flex-1 h-11 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold flex items-center justify-center gap-1.5 shadow-sm">
+            <span class="material-symbols-outlined text-[18px]">calculate</span> Estimate My OOP Now
+          </a>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
