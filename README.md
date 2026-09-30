@@ -3,4 +3,4 @@ Healthcare costs in India are often difficult to predict and manage. Patients an
 
 Our project addresses this challenge through an AI-powered Healthcare Cost and Care Navigation Platform that helps users estimate medical expenses, discover suitable healthcare facilities, and identify relevant government schemes and insurance options.
 
-🔗 Interactive Prototype(demo): View Prototype
+🔗 Interactive Prototype(demo): [CareCostAI](carecostai.vercel.app)
